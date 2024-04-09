@@ -12,7 +12,7 @@ function TabBarIcon(props: {
   name: React.ComponentProps<typeof FontAwesome>['name'];
   color: string;
 }) {
-  return <FontAwesome size={28} style={{ marginBottom: -3 }} {...props} />;
+  return <FontAwesome size={25} style={{ marginBottom: -3 }} {...props} />;
 }
 
 export default function TabLayout() {
@@ -25,12 +25,32 @@ export default function TabLayout() {
         // Disable the static render of the header on web
         // to prevent a hydration error in React Navigation v6.
         headerShown: useClientOnlyValue(false, true),
+        tabBarStyle: {
+          height: 60, // Adjust the height according to your preference
+          alignItems: 'center', // Center content vertically within tabs
+          paddingBottom: 7, // Add padding at the bottom to create space
+        },
+        tabBarLabelStyle: {
+          textAlign: 'center', // Center the text horizontally
+        },
+        tabBarItemStyle: {
+          flex: 1, // Ensure tab items take up equal space
+        },
+
       }}>
+      <Tabs.Screen 
+      name='index'
+      options={{ href : null}}
+      />
       <Tabs.Screen
-        name="index"
+        name="category"
         options={{
-          title: 'Tab One',
-          tabBarIcon: ({ color }) => <TabBarIcon name="code" color={color} />,
+          title: 'Categroy',
+          headerShown:false,
+          tabBarIcon: ({ color }) => <TabBarIcon name="th-large" color={color} />,
+          tabBarItemStyle: {
+           marginTop:5
+          },
           headerRight: () => (
             <Link href="/modal" asChild>
               <Pressable>
@@ -50,8 +70,15 @@ export default function TabLayout() {
       <Tabs.Screen
         name="two"
         options={{
-          title: 'Tab Two',
-          tabBarIcon: ({ color }) => <TabBarIcon name="code" color={color} />,
+          title: 'Fav',
+          tabBarIcon: ({ color }) => <TabBarIcon name="heart" color={color} />,
+        }}
+      />
+            <Tabs.Screen
+        name="my"
+        options={{
+          title: 'User',
+          tabBarIcon: ({ color }) => <TabBarIcon name="user" color={color} />,
         }}
       />
     </Tabs>
