@@ -1,24 +1,37 @@
 import { Image, Pressable, StyleSheet } from "react-native";
 import { Text, View } from '@/components/Themed';
-import { Stack, useLocalSearchParams } from "expo-router";
+import { Stack, useLocalSearchParams, useRouter } from "expo-router";
 import { works } from "@/assets/data/work";
 import { noimg } from "@/components/works";
 import { useState } from "react";
 import Button from "@/components/Button";
+import { useCart } from "@/providers/CartProviders";
+import { Sizes } from "@/types";
 
 
-const sizes = ["S","M","L","XL"]
 
-const demander = () => {
-    console.warn("Demander")
-}
+const sizes : Sizes[] = ["S","M","L","XL"]
+
+
 
 
 const idDetails = () => {
     const { id } = useLocalSearchParams();
+    const {addItem} = useCart();
+
+    const router = useRouter();
+
     const work = works.find((p) => p.id.toString() === id);
 
-    const [selectedsize, SetSelectedSize] = useState("M");
+    const [selectedsize, SetSelectedSize] = useState<Sizes>("M");
+
+    const demander = () => {
+        if(!work){
+            return;
+        }
+        addItem(work,selectedsize);
+        router.push("/demande");
+    }
 
     if(!work) {
         return <Text>Not Found</Text>

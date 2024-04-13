@@ -3,4 +3,14 @@ export type Works = {
     name: string;
     image: string | null;
     price: string;
+};
+
+export type Sizes = 'S' | 'M' | 'L' | 'XL';
+
+export type CardItem = {
+    id : string;
+    product : Works;
+    product_id : number;
+    size : Sizes;
+    quantity : number;
 }
