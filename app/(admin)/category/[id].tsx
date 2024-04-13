@@ -49,7 +49,7 @@ const idDetails = () => {
                 </Pressable >
                 ))}
             </View>
-            <Text style={styles.price}>{work.price}</Text>
+            <Text style={styles.price}>{work.price} 0000 DA</Text>
             <Button onPress={demander} text="Demander"/>
         </View>
     );

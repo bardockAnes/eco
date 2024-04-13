@@ -1,5 +1,5 @@
 import { Redirect } from "expo-router";
 export default function TabIndex() {
-    return <Redirect href={'/(tabs)/category'}/>
+    return <Redirect href={'/(admin)/category/'}/>
 
 }

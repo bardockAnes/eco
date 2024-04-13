@@ -1,7 +1,7 @@
 import { Image, StyleSheet, ScrollView, Pressable } from "react-native";
 import { works } from "../assets/data/work";
 import { Works } from "../types";
-import { Link } from "expo-router";
+import { Link, useSegments } from "expo-router";
 import { Text } from "./Themed";
 
 type WorkslistProps = {
@@ -12,15 +12,16 @@ export const noimg =
 'https://plus.unsplash.com/premium_photo-1676968002954-d165313b5601?q=80&w=1374&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D';
 
 const Workslist = ({ works }: WorkslistProps) => {
+  const segments = useSegments();
   return (
-    <Link href={`/category/${works.id}`} asChild>
+    <Link href={`/${segments[0]}/category/${works.id}`} asChild>
       <Pressable style={styles.catigory}>
         <Image
           source={{ uri: works.image || noimg }}
           style={{ width: "100%", height: "80%", borderRadius: 12 }}
         />
         <Text style={styles.text}>{works.name}</Text>
-        <Text style={styles.textPrice}>{works.price}</Text>
+        <Text style={styles.textPrice}>{works.price} 0000 DA</Text>
       </Pressable>
     </Link>
   );
