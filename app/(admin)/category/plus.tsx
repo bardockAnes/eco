@@ -3,12 +3,14 @@ import { View, Text } from "@/components/Themed";
 import { Image, StyleSheet, TextInput } from "react-native";
 import Button from "@/components/Button";
 import { img } from "@/assets/data/work";
+import * as ImagePicker from 'expo-image-picker';
+import { Stack } from "expo-router";
 
 const plusScren = () => {
     const [name,setName] = useState("");
     const [price,setPrice] = useState("");
     const [errors,setErrors] = useState("");
-    const [image, setImage] = useState(null)
+    const [image, setImage] = useState<string | null>(null)
 
     const reset = () => {
         setName("")
@@ -41,10 +43,28 @@ const plusScren = () => {
         reset()
         
     }
+
+    const pickImage = async () => {
+        // No permissions request is necessary for launching the image library
+        let result = await ImagePicker.launchImageLibraryAsync({
+          mediaTypes: ImagePicker.MediaTypeOptions.Images,
+          allowsEditing: true,
+          aspect: [1, 1],
+          quality: 1,
+        });
+    
+        console.log(result);
+    
+        if (!result.canceled) {
+          setImage(result.assets[0].uri);
+        }
+      };
+
     return ( 
     <View style={styles.container}>
-        <Image source={{uri : img}} style={styles.image}/>
-        <Text style={styles.imgText}>Selcet image</Text>
+        <Stack.Screen options={{title:"Create New", headerTitleAlign:'center',}}/>
+        <Image source={{uri : image || img}} style={styles.image}/>
+        <Text style={styles.imgText} onPress={pickImage}>Selcet image</Text>
         <Text style={styles.label}>Name</Text>
         <TextInput style={styles.input} placeholder="name" value={name} onChangeText={setName}/>
         <Text style={styles.label}>Price - DA -</Text>
