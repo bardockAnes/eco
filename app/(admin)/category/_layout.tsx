@@ -7,21 +7,40 @@ import Colors from "@/constants/Colors";
 
 export default function categoryStack() {
   return (
-    <Stack
-      screenOptions={{
-      
-      }}
-    >
+    <Stack>
+      <Stack.Screen 
+      name="index" 
+      options={{
+        title:"category"
+      }}/>
       <Stack.Screen
-        name="index"
+        name="bed"
         options={{
-          title: "category",
           headerRight: () => (
-            <Link href="/plus" asChild>
+            <Link href={"/(admin)/category/plus"} asChild>
               <Pressable>
                 {({ pressed }) => (
                   <FontAwesome
                     name="plus-square-o"
+                    size={28}
+                    color={Colors.light.tint}
+                    style={{ marginRight: 15, opacity: pressed ? 0.5 : 1 }}
+                  />
+                )}
+              </Pressable>
+            </Link>
+          ),
+        }}
+      />
+            <Stack.Screen
+        name="[id]"
+        options={{
+          headerRight: () => (
+            <Link href={"/(admin)/category/edit"} asChild>
+              <Pressable>
+                {({ pressed }) => (
+                  <FontAwesome
+                    name="edit"
                     size={28}
                     color={Colors.light.tint}
                     style={{ marginRight: 15, opacity: pressed ? 0.5 : 1 }}
