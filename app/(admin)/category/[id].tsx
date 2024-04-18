@@ -10,14 +10,14 @@ import { Sizes } from "@/types";
 
 
 
-const sizes : Sizes[] = ["S","M","L","XL"]
+const sizes: Sizes[] = ["S", "M", "L", "XL"]
 
 
 
 
 const idDetails = () => {
     const { id } = useLocalSearchParams();
-    const {addItem} = useCart();
+    const { addItem } = useCart();
 
     const router = useRouter();
 
@@ -26,69 +26,41 @@ const idDetails = () => {
     const [selectedsize, SetSelectedSize] = useState<Sizes>("M");
 
     const demander = () => {
-        if(!work){
+        if (!work) {
             return;
         }
-        addItem(work,selectedsize);
+        addItem(work, selectedsize);
         router.push("/demande");
     }
 
-    if(!work) {
+    if (!work) {
         return <Text>Not Found</Text>
     }
     return (
-      
+
         <View style={styles.container}>
-            <Stack.Screen options={{title: work.name}}/>
-            <Image source={{uri: work.image || noimg}} style={styles.image}/>
-            <Text>Select Size</Text>
-            <View style={styles.sizes}>
-            {sizes.map((size) => (
-            <Pressable onPress={() => {SetSelectedSize(size);}} style={[styles.size, {backgroundColor: selectedsize === size? "gainsboro" : "transparent"}]} key={size}>
-                <Text style={styles.textsize}>{size}</Text>
-                </Pressable >
-                ))}
-            </View>
+            <Stack.Screen options={{ title: work.name }} />
+            <Image source={{ uri: work.image || noimg }} style={styles.image} />
+            <Text style={styles.price}>{work.name}</Text>
             <Text style={styles.price}>{work.price} 0000 DA</Text>
-            <Button onPress={demander} text="Demander"/>
         </View>
     );
 };
 
-const styles = StyleSheet.create ({
-    container : {
-        flex:1,
+const styles = StyleSheet.create({
+    container: {
+        flex: 1,
     },
-    image : {
-        width:"100%",
-        aspectRatio:1,
+    image: {
+        width: "100%",
+        aspectRatio: 1,
     },
-    price : {
-         fontWeight:"bold",
-         fontSize:18,
-         textAlign:"center",
-       
+    price: {
+        fontWeight: "bold",
+        fontSize: 18,
+        textAlign: "center",
 
 
-    },
-    sizes : {
-        flexDirection:"row",
-        justifyContent:"space-around",
-        marginVertical:10,
-
-
-    },
-    size :{
-        width:50,
-        aspectRatio:1,
-        borderRadius:25,
-        justifyContent:"center",
-        alignItems:"center"
-
-    },
-    textsize : {
-        fontSize:20,
-        fontWeight:"500",
 
     },
 })
