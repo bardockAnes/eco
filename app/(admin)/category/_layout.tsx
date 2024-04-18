@@ -32,25 +32,6 @@ export default function categoryStack() {
           ),
         }}
       />
-            <Stack.Screen
-        name="[id]"
-        options={{
-          headerRight: () => (
-            <Link href={"/(admin)/category/edit"} asChild>
-              <Pressable>
-                {({ pressed }) => (
-                  <FontAwesome
-                    name="edit"
-                    size={28}
-                    color={Colors.light.tint}
-                    style={{ marginRight: 15, opacity: pressed ? 0.5 : 1 }}
-                  />
-                )}
-              </Pressable>
-            </Link>
-          ),
-        }}
-      />
     </Stack>
   );
 }

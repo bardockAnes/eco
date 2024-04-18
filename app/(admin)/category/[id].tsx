@@ -7,10 +7,14 @@ import { useState } from "react";
 import Button from "@/components/Button";
 import { useCart } from "@/providers/CartProviders";
 import { Sizes } from "@/types";
+import FontAwesome from "@expo/vector-icons/FontAwesome";
+import { Link, Tabs } from "expo-router";
+import Colors from "@/constants/Colors";
 
 
 
 const sizes: Sizes[] = ["S", "M", "L", "XL"]
+
 
 
 
@@ -39,6 +43,24 @@ const idDetails = () => {
     return (
 
         <View style={styles.container}>
+            <Stack.Screen
+                options={{
+                    headerRight: () => (
+                        <Link href={`/(admin)/category/plus?id=${id}`} asChild>
+                            <Pressable>
+                                {({ pressed }) => (
+                                    <FontAwesome
+                                        name="edit"
+                                        size={28}
+                                        color={Colors.light.tint}
+                                        style={{ marginRight: 15, opacity: pressed ? 0.5 : 1 }}
+                                    />
+                                )}
+                            </Pressable>
+                        </Link>
+                    ),
+                }}
+            />
             <Stack.Screen options={{ title: work.name }} />
             <Image source={{ uri: work.image || noimg }} style={styles.image} />
             <Text style={styles.price}>{work.name}</Text>

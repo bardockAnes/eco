@@ -1,16 +1,18 @@
 import React, { useState } from "react";
 import { View, Text } from "@/components/Themed";
-import { Image, StyleSheet, TextInput } from "react-native";
+import { Alert, Image, StyleSheet, TextInput } from "react-native";
 import Button from "@/components/Button";
 import { img } from "@/assets/data/work";
 import * as ImagePicker from 'expo-image-picker';
-import { Stack } from "expo-router";
+import { Stack, useLocalSearchParams } from "expo-router";
 
 const plusScren = () => {
     const [name,setName] = useState("");
     const [price,setPrice] = useState("");
     const [errors,setErrors] = useState("");
     const [image, setImage] = useState<string | null>(null)
+    const {id} = useLocalSearchParams();
+    const isUpdating = !!id
 
     const reset = () => {
         setName("")
@@ -34,6 +36,15 @@ const plusScren = () => {
         return true;
     }
 
+    const Update = () => {
+        if(isUpdating){
+            UpdateOld()
+        }
+        else {
+            CreateNew();
+        }
+    }
+
     const CreateNew = () => {
         if(!validateInput()){
         return;
@@ -42,7 +53,20 @@ const plusScren = () => {
         console.warn("create new product", name )
         reset()
         
-    }
+    };
+
+    const UpdateOld = () => {
+        if(!validateInput()){
+        return;
+        }
+        
+        console.warn("update old product", name )
+        reset()
+        
+    };
+
+
+
 
     const pickImage = async () => {
         // No permissions request is necessary for launching the image library
@@ -59,10 +83,28 @@ const plusScren = () => {
           setImage(result.assets[0].uri);
         }
       };
+      
+      const deleteWork = () => {
+        console.warn("The work is deleted")
+      }
+
+      const confirmDelete = () => {
+      Alert.alert("   تأكيد"," هل تريد مسح هذا العمل ؟",[
+        {
+            text : "رجوع",
+            style : "cancel"
+        },
+        {
+            text : "     مسح",
+            onPress : deleteWork,
+            style :"destructive",
+        }
+      ])
+      }
 
     return ( 
     <View style={styles.container}>
-        <Stack.Screen options={{title:"Create New", headerTitleAlign:'center',}}/>
+        <Stack.Screen options={{title: isUpdating ? "Update" : "Create New", headerTitleAlign:'center',}}/>
         <Image source={{uri : image || img}} style={styles.image}/>
         <Text style={styles.imgText} onPress={pickImage}>Selcet image</Text>
         <Text style={styles.label}>Name</Text>
@@ -70,7 +112,8 @@ const plusScren = () => {
         <Text style={styles.label}>Price - DA -</Text>
         <TextInput style={styles.input} placeholder="5 0000 DA" keyboardType="numeric" value={price} onChangeText={setPrice}/>
         <Text style={{color:"red", textAlign:"center",paddingBottom:5}}>{errors}</Text>
-        <Button text="Create" onPress={CreateNew}/>
+        <Button text={isUpdating ? "Update" : "Create"} onPress={isUpdating ? Update : CreateNew}/>
+        {isUpdating && <Text onPress={confirmDelete} style={styles.deleteText}>Delete</Text>}
     </View>
     )
 }
@@ -101,7 +144,12 @@ const styles = StyleSheet.create({
     imgText : {
         textAlign:"center",
         marginBottom:20,
-
+        color:"#2f95dc"
+    },
+    deleteText : {
+        textAlign:"center",
+        marginTop:10,
+        color:"#2f95dc"
     }
 
 })
