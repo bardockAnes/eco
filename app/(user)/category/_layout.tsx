@@ -23,6 +23,7 @@ export default function categoryStack() {
             </Pressable>
           </Link>
         ),
+        
       }}
     >
       <Stack.Screen

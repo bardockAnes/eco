@@ -40,7 +40,7 @@ export default function TabLayout() {
       }}>
       <Tabs.Screen 
       name='index'
-      options={{ href : null}}
+      options={{ href : null, headerShown:false}}
       />
       <Tabs.Screen
         name="category"
@@ -68,9 +68,9 @@ export default function TabLayout() {
         }}
       />
       <Tabs.Screen
-        name="two"
+        name="orders"
         options={{
-          title: 'Fav',
+          headerShown:false,
           tabBarIcon: ({ color }) => <TabBarIcon name="heart" color={color} />,
         }}
       />

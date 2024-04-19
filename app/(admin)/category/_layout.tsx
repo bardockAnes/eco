@@ -11,7 +11,7 @@ export default function categoryStack() {
       <Stack.Screen 
       name="index" 
       options={{
-        title:"category"
+        title:"categoy"
       }}/>
       <Stack.Screen
         name="bed"
