@@ -6,7 +6,7 @@ import { Text, View } from '@/components/Themed';
 
 export default function TabOneScreen() {
   return (
-    <ScrollView>
+    <ScrollView overScrollMode='never' >
       <View style={styles.container}>
         <Link href={"/(user)/category/bed"} asChild><Pressable style={styles.catigory}><Image source={require('../../../assets/images/Eco app img/Bed.jpg')} style={styles.imgae} /><View style={styles.slightBlackOverlay}><Text style={styles.text}>Bed</Text></View></Pressable></Link>
         <Link href={"/(user)/category/wordrpe"} asChild><Pressable style={styles.catigory}><Image source={require('../../../assets/images/Eco app img/Wordrpe.jpg')} style={styles.imgae} /><View style={styles.slightBlackOverlay}><Text style={styles.text}>Wordrpe</Text></View></Pressable></Link>

@@ -4,11 +4,16 @@ import React from "react";
 export default function ordersStack() {
   return (
     <Stack>
-    <Stack.Screen 
-    name="index" 
-    options={{
-      title:"Order"
-    }}/>
+      <Stack.Screen
+        name="list"
+        options={{
+          headerShown:false,title:""
+        }} />
+      <Stack.Screen
+        name="index"
+        options={{
+          headerShown: false,title:""
+        }} />
     </Stack>
   );
 }
