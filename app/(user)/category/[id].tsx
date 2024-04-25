@@ -1,7 +1,7 @@
-import { Image, Pressable, StyleSheet } from "react-native";
+import { ActivityIndicator, Image, Pressable, StyleSheet } from "react-native";
 import { Text, View } from '@/components/Themed';
 import { Stack, useLocalSearchParams, useRouter } from "expo-router";
-import { works } from "@/assets/data/work";
+import { useWorks } from "@/api/works";
 import { noimg } from "@/components/works";
 import { useState } from "react";
 import Button from "@/components/Button";
@@ -16,31 +16,42 @@ const sizes : Sizes[] = ["S","M","L","XL"]
 
 
 const idDetails = () => {
-    const { id } = useLocalSearchParams();
+    const { id : idString } = useLocalSearchParams();
+    const id = parseFloat( typeof idString === "string" ? idString : idString[0] );
+
+
+
+    const { data : works, error, isLoading } = useWorks(id)
+
+
     const {addItem} = useCart();
 
     const router = useRouter();
 
-    const work = works.find((p) => p.id.toString() === id);
+    
 
     const [selectedsize, SetSelectedSize] = useState<Sizes>("M");
 
     const demander = () => {
-        if(!work){
+        if(!works){
             return;
         }
-        addItem(work,selectedsize);
+        addItem(works,selectedsize);
         router.push("/demande");
     }
 
-    if(!work) {
-        return <Text>Not Found</Text>
+    if(isLoading){
+        return <ActivityIndicator/>
     }
+    if(error){
+        return <Text>Error fetching the data</Text>
+      }
+
     return (
       
         <View style={styles.container}>
-            <Stack.Screen options={{title: work.name}}/>
-            <Image source={{uri: work.image || noimg}} style={styles.image}/>
+            <Stack.Screen options={{title: works.name}}/>
+            <Image source={{uri: works.image || noimg}} style={styles.image}/>
             <Text>Select Size</Text>
             <View style={styles.sizes}>
             {sizes.map((size) => (
@@ -49,7 +60,7 @@ const idDetails = () => {
                 </Pressable >
                 ))}
             </View>
-            <Text style={styles.price}>{work.price} 0000 DA</Text>
+            <Text style={styles.price}>{works.price} 0000 DA</Text>
             <Button onPress={demander} text="Demander"/>
         </View>
     );

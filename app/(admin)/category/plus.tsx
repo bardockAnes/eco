@@ -1,18 +1,37 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { View, Text } from "@/components/Themed";
 import { Alert, Image, StyleSheet, TextInput } from "react-native";
 import Button from "@/components/Button";
 import { img } from "@/assets/data/work";
 import * as ImagePicker from 'expo-image-picker';
-import { Stack, useLocalSearchParams } from "expo-router";
+import { Stack, useLocalSearchParams, useRouter } from "expo-router";
+import { useInsertProduct, useUpdateProduct, useWorks } from "@/api/works";
+
 
 const plusScren = () => {
     const [name,setName] = useState("");
     const [price,setPrice] = useState("");
     const [errors,setErrors] = useState("");
-    const [image, setImage] = useState<string | null>(null)
-    const {id} = useLocalSearchParams();
-    const isUpdating = !!id
+    const [image, setImage] = useState<string | null>(null);
+
+    const {id : idString} = useLocalSearchParams();
+    const id = parseFloat(typeof idString === "string" ? idString : idString?.[0])
+    const isUpdating = !!idString;
+
+    const { mutate : insertProduct} = useInsertProduct();
+    const { mutate : updateWorks } = useUpdateProduct();
+    const { data : updatingProduct} = useWorks(id);
+
+    const router = useRouter();
+
+    useEffect(() => {
+      if(updatingProduct){
+        setName(updatingProduct.name);
+        setPrice(updatingProduct.price.toString());
+        setImage(updatingProduct.image);
+      }
+
+    }, [updatingProduct])
 
     const reset = () => {
         setName("")
@@ -51,7 +70,15 @@ const plusScren = () => {
         }
         
         console.warn("create new product", name )
-        reset()
+
+insertProduct({ name, price : parseFloat(price), image,},{
+    onSuccess: () => {
+        reset();
+        router.back();
+    }
+})
+
+        
         
     };
 
@@ -61,7 +88,12 @@ const plusScren = () => {
         }
         
         console.warn("update old product", name )
-        reset()
+        updateWorks({ id, name, price : parseFloat(price), image,},{
+            onSuccess: () => {
+                reset();
+                router.back();
+            }
+        })
         
     };
 
@@ -77,7 +109,7 @@ const plusScren = () => {
           quality: 1,
         });
     
-        console.log(result);
+  
     
         if (!result.canceled) {
           setImage(result.assets[0].uri);

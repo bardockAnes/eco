@@ -5,9 +5,9 @@ import { Stack } from 'expo-router';
 import * as SplashScreen from 'expo-splash-screen';
 import { useEffect } from 'react';
 import CartProvider from '@/providers/CartProviders';
-
-
 import { useColorScheme } from '@/components/useColorScheme';
+import AuthProvider from '@/providers/AuthProviders';
+import QueryProvider from '@/providers/QueryProvider';
 
 export {
   // Catch any errors thrown by the Layout component.
@@ -51,13 +51,17 @@ function RootLayoutNav() {
 
   return (
     <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
-      <CartProvider>
-      <Stack>
-        <Stack.Screen name="(admin)" options={{ headerShown: false }} />
-        <Stack.Screen name="(user)" options={{ headerShown: false }} />
-        <Stack.Screen name='(auth)' options={{ headerShown: false}} />
-      </Stack>
-      </CartProvider>
+      <AuthProvider>
+        <QueryProvider>
+          <CartProvider>
+            <Stack>
+              <Stack.Screen name="(admin)" options={{ headerShown: false }} />
+              <Stack.Screen name="(user)" options={{ headerShown: false }} />
+              <Stack.Screen name='(auth)' options={{ headerShown: false }} />
+            </Stack>
+          </CartProvider>
+        </QueryProvider>
+      </AuthProvider>
     </ThemeProvider>
   );
 }

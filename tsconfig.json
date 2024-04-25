@@ -13,5 +13,5 @@
     "**/*.tsx",
     ".expo/types/**/*.ts",
     "expo-env.d.ts"
-  ]
+, "app/(admin)/category/plus.tsx", "api/works/index.ts"  ]
 }
