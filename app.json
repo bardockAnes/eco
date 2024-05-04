@@ -1,14 +1,14 @@
 {
   "expo": {
-    "name": "eco",
+    "name": "CCM",
     "slug": "eco",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/images/icon.png",
+    "icon": "./assets/images/Ccm.png",
     "scheme": "myapp",
     "userInterfaceStyle": "automatic",
     "splash": {
-      "image": "./assets/images/splash.png",
+      "image": "./assets/images/SplashCcm.png",
       "resizeMode": "contain",
       "backgroundColor": "#ffffff"
     },
@@ -20,7 +20,7 @@
     },
     "android": {
       "adaptiveIcon": {
-        "foregroundImage": "./assets/images/adaptive-icon.png",
+        "foregroundImage": "./assets/images/AdpCcm.png",
         "backgroundColor": "#ffffff"
       },
       "package": "com.bardockanes.eco"
@@ -40,8 +40,7 @@
     "extra": {
       "router": {
         "origin": false
-      },
-      "eas": {
+      },  "eas": {
         "projectId": "32d7892d-d96b-4e0b-8dd3-261003bc7a12"
       }
     }
