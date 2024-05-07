@@ -1,15 +1,23 @@
-export type Works = {
-    id: number;
-    name: string;
-    image: string | null;
-    price: number;
+import { Database } from "./supabase/supabasetypes";
+
+export type Tables<T extends keyof Database['public']['Tables']> =
+Database['public']['Tables'][T]['Row'];
+export type Enums<T extends keyof Database['public']['Enums']> =
+Database['public']['Enums'][T];
+
+export type works = {
+          created_at: string
+          id: number
+          image: string | null
+          name: string
+          price: number
 };
 
 export type Sizes = 'S' | 'M' | 'L' | 'XL';
 
 export type CardItem = {
     id : string;
-    product : Works;
+    product : works;
     product_id : number;
     size : Sizes;
     quantity : number;
@@ -38,7 +46,7 @@ export const OrderStatusList: OrderStatus[] = [
   export type OrderItem = {
     id: number;
     product_id: number;
-    products: Works;
+    products: works;
     order_id: number;
     size: Sizes;
     quantity: number;

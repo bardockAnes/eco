@@ -1,11 +1,10 @@
 import { Image, StyleSheet, ScrollView, Pressable } from "react-native";
-import { works } from "../assets/data/work";
-import { Works } from "../types";
+import { Tables } from "../types";
 import { Link, useSegments } from "expo-router";
 import { Text } from "./Themed";
 
 type WorkslistProps = {
-    works: Works;
+    works: Tables<"works">;
 };
 
 export const noimg = 
