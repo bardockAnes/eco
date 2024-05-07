@@ -4,9 +4,11 @@
  */
 
 import { Text as DefaultText, View as DefaultView } from 'react-native';
+import { ActivityIndicator as DefaultactivityIndicator } from 'react-native';
 
 import Colors from '@/constants/Colors';
 import { useColorScheme } from './useColorScheme';
+import { colors } from 'react-native-elements';
 
 type ThemeProps = {
   lightColor?: string;
@@ -42,4 +44,8 @@ export function View(props: ViewProps) {
   const backgroundColor = useThemeColor({ light: lightColor, dark: darkColor }, 'background');
 
   return <DefaultView style={[{ backgroundColor }, style]} {...otherProps} />;
+}
+
+export function ActivityIndicator() {
+  return <DefaultactivityIndicator style={{flex:1}} size={"large"} color={Colors.light.tint}/>
 }

@@ -1,12 +1,21 @@
 import React from "react";
-import { View, Text } from "@/components/Themed";
+import { View, Text, ActivityIndicator } from "@/components/Themed";
 import { FlatList } from "react-native";
-import orders from "@/assets/data/orders";
 import OrderListItem from "@/components/OrderListItem";
+import { useOrderListAdmin } from "@/api/orders";
 
 export default function ordersScren() {
-    return (
-        <FlatList data={orders} renderItem={({ item }) => <OrderListItem order={item}/>} 
-        contentContainerStyle={{gap:10, padding:10, paddingTop:20}}/>
-    )
+
+    const { data: order, isLoading, error } = useOrderListAdmin({archive : false});
+
+    if (isLoading) {
+        return <ActivityIndicator/>
+    }
+    if (error) {
+        return <Text>error in ftching the data from the base</Text>
+    }
+        return (
+            <FlatList data={order} renderItem={({ item }) => <OrderListItem order={item} />}
+                contentContainerStyle={{ gap: 10, padding: 10, paddingTop: 20 }} />
+        )
 }

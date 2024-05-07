@@ -1,9 +1,9 @@
 import Button from "@/components/Button";
-import { View, Text } from "@/components/Themed";
+import { View, Text, ActivityIndicator } from "@/components/Themed";
 import { useAuth } from "@/providers/AuthProviders";
 import { supabase } from "@/supabase/supabase";
 import { Link, Redirect, Stack } from "expo-router";
-import { ActivityIndicator, StyleSheet } from "react-native";
+import { StyleSheet } from "react-native";
 
 
 
