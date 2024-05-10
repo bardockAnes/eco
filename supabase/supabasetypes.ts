@@ -1,3 +1,6 @@
+
+// npx supabase gen types typescript --project-id "cuwrpwfovehzvuxqjqtt" --schema public > supabase/supabasetypes.ts
+
 export type Json =
   | string
   | number
@@ -45,25 +48,25 @@ export type Database = {
         Row: {
           created_at: string
           id: number
-          order_id: number | null
+          order_id: number
           product_id: number
-          quantity: number | null
+          quantity: number
           size: string
         }
         Insert: {
           created_at?: string
           id?: number
-          order_id?: number | null
+          order_id: number
           product_id: number
-          quantity?: number | null
+          quantity?: number
           size?: string
         }
         Update: {
           created_at?: string
           id?: number
-          order_id?: number | null
+          order_id?: number
           product_id?: number
-          quantity?: number | null
+          quantity?: number
           size?: string
         }
         Relationships: [
