@@ -10,14 +10,14 @@ import { Stack } from "expo-router";
 
 
 const demande = () => {
-    const { items, total } = useCart();
+    const { items, total, checkout } = useCart();
     return (
         <View style={{padding:10}}>
             <Stack screenOptions={{ presentation :"modal"}}/>
             <FlatList data={items} renderItem={({item}) => <CartListItem cartItem={item}/>}
             contentContainerStyle={{padding:10,gap:10}}/>
             <Text style={{padding:10,fontSize:20,fontWeight:"500",textAlign:"center"}}>Prix : {total} 0000 DA</Text>
-            <Button text="Checkout"/>
+            <Button text="Checkout" onPress={checkout}/>
         </View>
     );
 };

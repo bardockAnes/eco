@@ -1,24 +1,24 @@
 import { View, Text, StyleSheet, Image } from 'react-native';
 import React from 'react';
 import Colors from '../constants/Colors';
-import { OrderItem } from '../types';
+import { OrderItem, Sizes, Tables } from '../types';
 import { img } from '@/assets/data/work';
 
 type OrderItemListItemProps = {
-  item: OrderItem;
+  item: {works :Tables<'works'>} & Tables<'order_item'>  ;
 };
 
 const OrderItemListItem = ({ item }: OrderItemListItemProps) => {
   return (
     <View style={styles.container}>
       <Image
-        source={{ uri: item.products.image || img }}
+        source={{ uri: item.works.image || img }}
         style={styles.image}
       />
       <View style={{ flex: 1 }}>
-        <Text style={styles.title}>{item.products.name}</Text>
+        <Text style={styles.title}>{item.works.name}</Text>
         <View style={styles.subtitleContainer}>
-          <Text style={styles.price}>${item.products.price.toFixed(2)}</Text>
+          <Text style={styles.price}>${item.works.price.toFixed(2)}</Text>
           <Text>Size: {item.size}</Text>
         </View>
       </View>

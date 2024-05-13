@@ -5,7 +5,7 @@ import { noimg } from "@/components/works";
 import { useState } from "react";
 import Button from "@/components/Button";
 import { useCart } from "@/providers/CartProviders";
-import { Sizes } from "@/types";
+import { Sizes, Tables } from "@/types";
 import FontAwesome from "@expo/vector-icons/FontAwesome";
 import { Link, Tabs } from "expo-router";
 import Colors from "@/constants/Colors";
@@ -31,7 +31,8 @@ const idDetails = () => {
 
     const router = useRouter(); 
 
-
+// type workstypes = Tables<"works">
+// type works = workstypes
 
 
   

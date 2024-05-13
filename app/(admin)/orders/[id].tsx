@@ -7,18 +7,31 @@ import { FlatList, Pressable } from "react-native";
 import OrderItemListItem from "@/components/OrderItemListItem";
 import { OrderStatusList } from "@/types";
 import Colors from "@/constants/Colors";
+import { useOrderDetails, useUpdateOrder } from "@/api/orders";
+import { ActivityIndicator } from "@/components/Themed";
 
 export default function orderDetails() {
-    const { id } = useLocalSearchParams();
-    const order = orders.find((o) => o.id.toString() === id)
-    if (!order) {
-        return <Text>Not found</Text>
+    const { id : idString } = useLocalSearchParams();
+    const id = parseFloat( typeof idString === "string" ? idString : idString[0] );
+    // const order = orders.find((o) => o.id.toString() === id)
+    const { data : order, isLoading, error} = useOrderDetails(id);
+    const { mutate : updateOrder } = useUpdateOrder();
+
+    const updateStatus = (status : string) => {
+        updateOrder({id: id , updatedFields : {status}})
+
+    }
+    if(isLoading){
+        return <ActivityIndicator/>
+    }
+    if(error || !order){
+        return <Text>error in fetching</Text>
     }
     return (
         <View style={{ padding: 10 }}>
             <Stack.Screen options={{ title: `Order number ${id}`, headerTitleAlign: "center" }} />
             <OrderListItem order={order} />
-            <FlatList data={order.order_items} renderItem={({ item }) => <OrderItemListItem item={item} />}
+            <FlatList data={order.order_item} renderItem={({ item }) => <OrderItemListItem item={item} />}
                 contentContainerStyle={{ gap: 10, padding: 10 }}
                 ListFooterComponent={() => (
                     <>
@@ -27,7 +40,7 @@ export default function orderDetails() {
                             {OrderStatusList.map((status) => (
                                 <Pressable
                                     key={status}
-                                    onPress={() => console.warn('Update status')}
+                                    onPress={() => updateStatus(status)}
                                     style={{
                                         borderColor: Colors.light.tint,
                                         borderWidth: 1,

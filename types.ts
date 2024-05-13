@@ -2,8 +2,14 @@ import { Database } from "./supabase/supabasetypes";
 
 export type Tables<T extends keyof Database['public']['Tables']> =
 Database['public']['Tables'][T]['Row'];
+export type insertTables<T extends keyof Database['public']['Tables']> =
+Database['public']['Tables'][T]['Insert'];
+export type updateTables<T extends keyof Database['public']['Tables']> =
+Database['public']['Tables'][T]['Insert'];
 export type Enums<T extends keyof Database['public']['Enums']> =
 Database['public']['Enums'][T];
+
+
 
 export type works = {
           created_at: string
@@ -46,7 +52,7 @@ export const OrderStatusList: OrderStatus[] = [
   export type OrderItem = {
     id: number;
     product_id: number;
-    products: works;
+    products: works
     order_id: number;
     size: Sizes;
     quantity: number;
