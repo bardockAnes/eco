@@ -12,7 +12,7 @@ import { ActivityIndicator } from "@/components/Themed";
 
 export default function orderDetails() {
     const { id : idString } = useLocalSearchParams();
-    const id = parseFloat( typeof idString === "string" ? idString : idString[0] );
+    const id = parseFloat( typeof idString === "string" ? idString : idString?.[0]?? '' );
     // const order = orders.find((o) => o.id.toString() === id)
     const { data : order, isLoading, error} = useOrderDetails(id);
     const { mutate : updateOrder } = useUpdateOrder();
