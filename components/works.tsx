@@ -2,7 +2,8 @@ import { Image, StyleSheet, ScrollView, Pressable } from "react-native";
 import { Tables } from "../types";
 import { Link, useSegments } from "expo-router";
 import { Text } from "./Themed";
-
+import RemoteImage from '../components/RemoteImage'
+import { img } from "@/assets/data/work";
 type WorkslistProps = {
     works: Tables<"works">;
 };
@@ -15,9 +16,10 @@ const Workslist = ({ works }: WorkslistProps) => {
   return (
     <Link href={`/${segments[0]}/category/${works.id}`} asChild>
       <Pressable style={styles.catigory}>
-        <Image
-          source={{ uri: works.image || noimg }}
-          style={{ width: "100%", height: "80%", borderRadius: 12 }}
+        <RemoteImage
+path={works.image}
+fallback={img}
+style={{ width: "100%", height: "80%", borderRadius: 12 }}
         />
         <Text style={styles.text}>{works.name}</Text>
         <Text style={styles.textPrice}>{works.price} 0000 DA</Text>

@@ -11,6 +11,8 @@ import { Link, Tabs } from "expo-router";
 import Colors from "@/constants/Colors";
 import { useWorks } from "@/api/works";
 import { ActivityIndicator } from "react-native";
+import RemoteImage from "@/components/RemoteImage";
+import { img } from "@/assets/data/work";
 
 
 
@@ -22,7 +24,7 @@ const sizes: Sizes[] = ["S", "M", "L", "XL"]
 
 const idDetails = () => {
     const { id : idString } = useLocalSearchParams();
-    const id = parseFloat( typeof idString === "string" ? idString : idString[0] );
+    const id = parseFloat( typeof idString === "string" ? idString : idString?.[0]?? '' );
 
   
     const { data : works, error, isLoading } = useWorks(id)
@@ -77,7 +79,7 @@ const idDetails = () => {
                 }}
             />
             <Stack.Screen options={{ title: works.name }} />
-            <Image source={{ uri: works.image || noimg }} style={styles.image} />
+            <RemoteImage  path={works?.image} fallback={img} style={styles.image} />
             <Text style={styles.price}>{works.name}</Text>
             <Text style={styles.price}>{works.price} 0000 DA</Text>
         </View>

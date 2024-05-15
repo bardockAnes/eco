@@ -7,6 +7,8 @@ import { useState } from "react";
 import Button from "@/components/Button";
 import { useCart } from "@/providers/CartProviders";
 import { Sizes } from "@/types";
+import { img } from "@/assets/data/work";
+import RemoteImage from "@/components/RemoteImage";
 
 
 
@@ -51,7 +53,7 @@ const idDetails = () => {
       
         <View style={styles.container}>
             <Stack.Screen options={{title: works.name}}/>
-            <Image source={{uri: works.image || noimg}} style={styles.image}/>
+            <RemoteImage  path={works?.image} fallback={img} style={styles.image} />
             <Text>Select Size</Text>
             <View style={styles.sizes}>
             {sizes.map((size) => (

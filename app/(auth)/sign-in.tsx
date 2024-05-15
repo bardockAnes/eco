@@ -24,9 +24,9 @@ async function SingInWithEmail() {
         <View style={styles.container}>
             <Stack.Screen options={{ title: "Sign in", headerTitleAlign: 'center', }} />
             <Text style={styles.label}>Email</Text>
-            <TextInput style={styles.input} placeholder="exmple@gmail.com" value={email} onChangeText={setEmail} />
+            <TextInput style={styles.input} placeholder="exmple@gmail.com" value={email} onChangeText={setEmail} autoCapitalize="none" />
             <Text style={styles.label}>Password</Text>
-            <TextInput style={styles.input} placeholder="******"  value={password} onChangeText={setPassword} secureTextEntry/>
+            <TextInput style={styles.input} placeholder="******"  value={password} onChangeText={setPassword} autoCapitalize="none" secureTextEntry/>
             <Text style={{ color: "red", textAlign: "center", paddingBottom: 5 }}></Text>
             <Button text={loading? "Sing in ..." : "Sign in"} onPress={SingInWithEmail} disabled={loading} />
             <Link href={"/(auth)/sign-up"} replace={true} style={styles.deleteText}>Sign up</Link>

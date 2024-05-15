@@ -1,14 +1,11 @@
 import { StyleSheet } from 'react-native';
-
-import EditScreenInfo from '@/components/EditScreenInfo';
 import { Text, View } from '@/components/Themed';
-
-export default function TabMyScreen() {
+import Button from "@/components/Button";
+import { supabase } from '@/supabase/supabase';
+export default function User() {
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>My Tab</Text>
-      <View style={styles.separator} lightColor="#eee" darkColor="rgba(255,255,255,0.1)" />
-      <EditScreenInfo path="app/(tabs)/my.jsx" />
+<Button onPress={() => supabase.auth.signOut()} text="Sign out" />
     </View>
   );
 }
@@ -16,7 +13,6 @@ export default function TabMyScreen() {
 const styles = StyleSheet.create({
     container: {
       flex: 1,
-      alignItems: 'center',
       justifyContent: 'center',
     },
     title: {

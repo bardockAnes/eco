@@ -6,8 +6,11 @@ import { img } from "@/assets/data/work";
 import * as ImagePicker from 'expo-image-picker';
 import { Stack, useLocalSearchParams, useRouter } from "expo-router";
 import { useInsertProduct, useUpdateProduct, useWorks, useDeleteWork } from "@/api/works";
-
-
+import * as FileSystem from 'expo-file-system';
+import { randomUUID } from "expo-crypto";
+import { supabase } from "@/supabase/supabase";
+import {decode} from 'base64-arraybuffer'
+import RemoteImage from "@/components/RemoteImage";
 const plusScren = () => {
     const [name, setName] = useState("");
     const [price, setPrice] = useState("");
@@ -15,7 +18,7 @@ const plusScren = () => {
     const [image, setImage] = useState<string | null>(null);
 
     const { id: idString } = useLocalSearchParams();
-    const id = parseFloat(typeof idString === "string" ? idString : idString?.[0])
+    const id = parseFloat(typeof idString === "string" ? idString : idString?.[0]?? '')
     const isUpdating = !!idString;
 
     const { mutate: insertProduct } = useInsertProduct();
@@ -65,14 +68,14 @@ const plusScren = () => {
         }
     }
 
-    const CreateNew = () => {
+    const CreateNew = async () => {
         if (!validateInput()) {
             return;
         }
 
-        console.warn("create new product", name)
-
-        insertProduct({ name, price: parseFloat(price), image, }, {
+        const imagePath = await uploadImage();
+        
+        insertProduct({ name, price: parseFloat(price), image : imagePath}, {
             onSuccess: () => {
                 reset();
                 router.back();
@@ -83,13 +86,13 @@ const plusScren = () => {
 
     };
 
-    const UpdateOld = () => {
+    const UpdateOld = async () => {
         if (!validateInput()) {
             return;
         }
-
-        console.warn("update old product", name)
-        updateWorks({ id, name, price: parseFloat(price), image, }, {
+const imagePath = await uploadImage();
+    
+        updateWorks({ id, name, price: parseFloat(price), image : imagePath }, {
             onSuccess: () => {
                 reset();
                 router.back();
@@ -138,12 +141,31 @@ const plusScren = () => {
                 style: "destructive",
             }
         ])
-    }
+    };
+
+    const uploadImage = async () => {
+        if (!image?.startsWith('file://')) {
+          return;
+        }
+      
+        const base64 = await FileSystem.readAsStringAsync(image, {
+          encoding: 'base64',
+        });
+        const filePath = `${randomUUID()}.png`;
+        const contentType = 'image/png';
+        const { data, error } = await supabase.storage
+          .from('works.images')
+          .upload(filePath, decode(base64), { contentType });
+      
+        if (data) {
+          return data.path;
+        }
+      };
 
     return (
         <View style={styles.container}>
             <Stack.Screen options={{ title: isUpdating ? "Update" : "Create New", headerTitleAlign: 'center', }} />
-            <Image source={{ uri: image || img }} style={styles.image} />
+            <RemoteImage path={image} fallback={img} style={styles.image} />
             <Text style={styles.imgText} onPress={pickImage}>Selcet image</Text>
             <Text style={styles.label}>Name</Text>
             <TextInput style={styles.input} placeholder="name" value={name} onChangeText={setName} />

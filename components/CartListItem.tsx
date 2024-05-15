@@ -5,6 +5,8 @@ import { CardItem } from '@/types';
 import { Link } from 'expo-router';
 import { FontAwesome } from '@expo/vector-icons';
 import { useCart } from '@/providers/CartProviders';
+import RemoteImage from './RemoteImage';
+import { img } from '@/assets/data/work';
 
 type CartListItemProps = {
   cartItem: CardItem;
@@ -16,8 +18,9 @@ const CartListItem = ({ cartItem }: CartListItemProps) => {
   const { updateQuantity } = useCart();
   return (
     <View style={styles.container}>
-      <Image
-        source={{ uri: cartItem.product.image || defaultPizzaImage }}
+      <RemoteImage
+        path={cartItem.product.image}
+        fallback={img}
         style={styles.image}
         resizeMode="contain"
       />
