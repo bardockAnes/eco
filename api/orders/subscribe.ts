@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import { supabase } from "@/supabase/supabase";
+import { supabase } from "@/supabasel/supabase";
 import { useQueryClient } from "@tanstack/react-query";
 
 export const useSubscribeLisner = () => {

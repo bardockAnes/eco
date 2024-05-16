@@ -1,7 +1,7 @@
 import { StyleSheet } from 'react-native';
 import { Text, View } from '@/components/Themed';
 import Button from "@/components/Button";
-import { supabase } from '@/supabase/supabase';
+import { supabase } from '@/supabasel/supabase';
 export default function User() {
   return (
     <View style={styles.container}>

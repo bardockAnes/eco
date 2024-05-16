@@ -5,7 +5,7 @@ import Button from "@/components/Button";
 import { img } from "@/assets/data/work";
 import * as ImagePicker from 'expo-image-picker';
 import { Link, Redirect, Stack, useLocalSearchParams } from "expo-router";
-import { supabase } from "@/supabase/supabase";
+import { supabase } from "@/supabasel/supabase";
 import { useAuth } from "@/providers/AuthProviders";
 
 export default function signup() {

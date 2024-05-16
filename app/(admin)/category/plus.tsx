@@ -8,7 +8,7 @@ import { Stack, useLocalSearchParams, useRouter } from "expo-router";
 import { useInsertProduct, useUpdateProduct, useWorks, useDeleteWork } from "@/api/works";
 import * as FileSystem from 'expo-file-system';
 import { randomUUID } from "expo-crypto";
-import { supabase } from "@/supabase/supabase";
+import { supabase } from "@/supabasel/supabase";
 import {decode} from 'base64-arraybuffer'
 import RemoteImage from "@/components/RemoteImage";
 const plusScren = () => {
