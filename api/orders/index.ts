@@ -1,5 +1,5 @@
 import { useAuth } from "@/providers/AuthProviders"
-import { supabase } from "@/supabasel/supabase"
+import { supabase } from "@/supabaseS/supabase"
 import { useMutation, useQuery, useQueryClient} from "@tanstack/react-query"
 import { insertTables } from "@/types"
 import { updateTables } from "@/types"
