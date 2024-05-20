@@ -5,12 +5,12 @@ import { useMutation, useQuery, useQueryClient} from "@tanstack/react-query"
 
 
 
-export const useWorksList = () => {
+export const useWorksList = (category : string) => {
 
   return useQuery({
     queryKey: ['works'],
     queryFn: async () => {
-      const { data, error } = await supabase.from('works').select('*')
+      const { data, error } = await supabase.from('works').select('*').eq('category',category)
       if (error) {
         throw new Error(error.message)
       }
@@ -18,9 +18,6 @@ export const useWorksList = () => {
     }
   })
 }
-
-
-
 
 
 export const useWorks = (id: number) => {
@@ -59,6 +56,7 @@ export const useInsertProduct = () => {
           name: data.name,
           image: data.image,
           price: data.price,
+          category: data.category
         })
         .single();
 
@@ -83,6 +81,7 @@ export const useUpdateProduct = () => {
           name: data.name,
           image: data.image,
           price: data.price,
+          category: data.category
         })
         .eq('id',data.id)
         .select()

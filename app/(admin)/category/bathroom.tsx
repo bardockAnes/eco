@@ -3,9 +3,9 @@ import Workslist from "../../../components/works";
 import { useWorksList } from "@/api/works";
 import { ActivityIndicator, Text } from "@/components/Themed";
 
-export default function decorScreen() {
+export default function BathroomScreen() {
 
-  const category = "decor";
+  const category = "bathroom";
   const { data: works, error, isLoading } = useWorksList(category);
 
   if (isLoading) {
@@ -23,5 +23,6 @@ export default function decorScreen() {
     />
   );
 }
+
 
 

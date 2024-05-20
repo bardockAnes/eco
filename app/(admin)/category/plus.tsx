@@ -9,16 +9,17 @@ import { useInsertProduct, useUpdateProduct, useWorks, useDeleteWork } from "@/a
 import * as FileSystem from 'expo-file-system';
 import { randomUUID } from "expo-crypto";
 import { supabase } from "@/supabaseS/supabase";
-import {decode} from 'base64-arraybuffer'
+import { decode } from 'base64-arraybuffer'
 import RemoteImage from "@/components/RemoteImage";
 const plusScren = () => {
     const [name, setName] = useState("");
     const [price, setPrice] = useState("");
+    const [category, setCategory] = useState("");
     const [errors, setErrors] = useState("");
     const [image, setImage] = useState<string | null>(null);
 
     const { id: idString } = useLocalSearchParams();
-    const id = parseFloat(typeof idString === "string" ? idString : idString?.[0]?? '')
+    const id = parseFloat(typeof idString === "string" ? idString : idString?.[0] ?? '')
     const isUpdating = !!idString;
 
     const { mutate: insertProduct } = useInsertProduct();
@@ -33,16 +34,20 @@ const plusScren = () => {
             setName(updatingProduct.name);
             setPrice(updatingProduct.price.toString());
             setImage(updatingProduct.image);
+            setCategory(updatingProduct.category);
         }
 
     }, [updatingProduct])
 
     const reset = () => {
         setName("")
+        setCategory("")
         setPrice("")
     }
 
     const validateInput = () => {
+        const AllCategorys = ['bed', 'wardrobe','bed-table','decor','kitchen','tv-table','desk','bathroom']
+        
         setErrors("");
         if (!name) {
             setErrors("must have name")
@@ -56,7 +61,12 @@ const plusScren = () => {
             setErrors("pirce must be number")
             return false
         }
-        return true;
+        if (!AllCategorys.includes(category)) {
+            setErrors("There is no such cateroy")
+            return false
+        }
+ 
+            return true;
     }
 
     const Update = () => {
@@ -74,8 +84,8 @@ const plusScren = () => {
         }
 
         const imagePath = await uploadImage();
-        
-        insertProduct({ name, price: parseFloat(price), image : imagePath}, {
+
+        insertProduct({ name, category, price: parseFloat(price), image: imagePath }, {
             onSuccess: () => {
                 reset();
                 router.back();
@@ -90,9 +100,9 @@ const plusScren = () => {
         if (!validateInput()) {
             return;
         }
-const imagePath = await uploadImage();
-    
-        updateWorks({ id, name, price: parseFloat(price), image : imagePath }, {
+        const imagePath = await uploadImage();
+
+        updateWorks({ id, name, price: parseFloat(price), image: imagePath }, {
             onSuccess: () => {
                 reset();
                 router.back();
@@ -145,22 +155,22 @@ const imagePath = await uploadImage();
 
     const uploadImage = async () => {
         if (!image?.startsWith('file://')) {
-          return;
+            return;
         }
-      
+
         const base64 = await FileSystem.readAsStringAsync(image, {
-          encoding: 'base64',
+            encoding: 'base64',
         });
         const filePath = `${randomUUID()}.png`;
         const contentType = 'image/png';
         const { data, error } = await supabase.storage
-          .from('works.images')
-          .upload(filePath, decode(base64), { contentType });
-      
+            .from('works.images')
+            .upload(filePath, decode(base64), { contentType });
+
         if (data) {
-          return data.path;
+            return data.path;
         }
-      };
+    };
 
     return (
         <View style={styles.container}>
@@ -169,6 +179,8 @@ const imagePath = await uploadImage();
             <Text style={styles.imgText} onPress={pickImage}>Selcet image</Text>
             <Text style={styles.label}>Name</Text>
             <TextInput style={styles.input} placeholder="name" value={name} onChangeText={setName} />
+            <Text style={styles.label}>Category</Text>
+            <TextInput style={styles.input} placeholder="category" value={category} onChangeText={setCategory} autoCapitalize="none" />
             <Text style={styles.label}>Price - DA -</Text>
             <TextInput style={styles.input} placeholder="5 0000 DA" keyboardType="numeric" value={price} onChangeText={setPrice} />
             <Text style={{ color: "red", textAlign: "center", paddingBottom: 5 }}>{errors}</Text>

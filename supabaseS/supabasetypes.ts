@@ -1,6 +1,3 @@
-
-// npx supabase gen types typescript --project-id "cuwrpwfovehzvuxqjqtt" --schema public > supabase/supabasetypes.ts
-
 export type Json =
   | string
   | number
@@ -126,6 +123,7 @@ export type Database = {
       }
       works: {
         Row: {
+          category: string
           created_at: string
           id: number
           image: string | null
@@ -133,6 +131,7 @@ export type Database = {
           price: number
         }
         Insert: {
+          category?: string
           created_at?: string
           id?: number
           image?: string | null
@@ -140,7 +139,35 @@ export type Database = {
           price: number
         }
         Update: {
+          category?: string
           created_at?: string
+          id?: number
+          image?: string | null
+          name?: string
+          price?: number
+        }
+        Relationships: []
+      }
+      works_duplicate: {
+        Row: {
+          created_at: string
+          f: number | null
+          id: number
+          image: string | null
+          name: string
+          price: number
+        }
+        Insert: {
+          created_at?: string
+          f?: number | null
+          id?: number
+          image?: string | null
+          name: string
+          price: number
+        }
+        Update: {
+          created_at?: string
+          f?: number | null
           id?: number
           image?: string | null
           name?: string
