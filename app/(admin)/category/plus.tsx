@@ -62,7 +62,7 @@ const plusScren = () => {
             return false
         }
         if (!AllCategorys.includes(category)) {
-            setErrors("There is no such cateroy")
+            setErrors("The category must be one of this : bed  wardrobe  bed-table  decor  kitchen  tv-table  desk  bathroom")
             return false
         }
  

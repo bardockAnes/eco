@@ -1,72 +1,121 @@
 import { StyleSheet, ScrollView, Image, Pressable } from 'react-native';
 import { Link, Tabs } from 'expo-router';
-
+import FontAwesome from "@expo/vector-icons/FontAwesome";
 import EditScreenInfo from '@/components/EditScreenInfo';
 import { Text, View } from '@/components/Themed';
+import Colors from '@/constants/Colors';
 
 export default function TabOneScreen() {
   return (
-    <ScrollView overScrollMode='never' >
-      <View style={styles.container}>
-        <Link href={"/(user)/category/bed"} asChild><Pressable style={styles.catigory}><Image source={require('../../../assets/images/Eco app img/Bed.jpg')} style={styles.imgae} /><View style={styles.slightBlackOverlay}><Text style={styles.text}>Bed</Text></View></Pressable></Link>
-        <Link href={"/(user)/category/wardrobe"} asChild><Pressable style={styles.catigory}><Image source={require('../../../assets/images/Eco app img/Wordrpe.jpg')} style={styles.imgae} /><View style={styles.slightBlackOverlay}><Text style={styles.text}>Wordrpe</Text></View></Pressable></Link>
-        <Link href={"/(user)/category/bed-table"} asChild><Pressable style={styles.catigory}><Image source={require('../../../assets/images/Eco app img/BedTable.jpg')} style={styles.imgae} /><View style={styles.slightBlackOverlay}><Text style={styles.text}>Bed table</Text></View></Pressable></Link>
-        <Link href={"/(user)/category/decor"} asChild><Pressable style={styles.catigory}><Image source={require('../../../assets/images/Eco app img/Decor.jpg')} style={styles.imgae} /><View style={styles.slightBlackOverlay}><Text style={styles.text}>Decor</Text></View></Pressable></Link>
-        <Link href={"/(user)/category/kitchen"} asChild><Pressable style={styles.catigory}><Image source={require('../../../assets/images/Eco app img/Kitchen.jpg')} style={styles.imgae} /><View style={styles.slightBlackOverlay}><Text style={styles.text}>Kitchen</Text></View></Pressable></Link>
-        <Link href={"/(user)/category/tv-table"} asChild><Pressable style={styles.catigory}><Image source={require('../../../assets/images/Eco app img/TableTv.jpg')} style={styles.imgae} /><View style={styles.slightBlackOverlay}><Text style={styles.text}>TV table</Text></View></Pressable></Link>
-        <Link href={"/(user)/category/desk"} asChild><Pressable style={styles.catigory}><Image source={require('../../../assets/images/Eco app img/Desk.jpg')} style={styles.imgae} /><View style={styles.slightBlackOverlay}><Text style={styles.text}>Desk</Text></View></Pressable></Link>
-        <Link href={"/(user)/category/bathroom"} asChild><Pressable style={styles.catigory}><Image source={require('../../../assets/images/Eco app img/Bathroom.jpg')} style={styles.imgae} /><View style={styles.slightBlackOverlay}><Text style={styles.text}>Bathroom</Text></View></Pressable></Link>
+
+    <View style={styles.container}>
+      <View style={styles.sold}>
+        <Text style={sold.text}>Survetement -20%</Text>
       </View>
-    </ScrollView>
+      <View style={styles.categorys}>
+        <View style={styles.category}><FontAwesome name="shopping-cart" size={28} color={Colors.light.tint}/></View>
+        <View style={styles.category}><FontAwesome name="shopping-cart" size={28} color={Colors.light.tint}/></View>
+        <View style={styles.category}><FontAwesome name="shopping-cart" size={28} color={Colors.light.tint}/></View>
+        <View style={styles.category}><FontAwesome name="shopping-cart" size={28} color={Colors.light.tint}/></View>
+        <View style={styles.category}><FontAwesome name="shopping-cart" size={28} color={Colors.light.tint}/></View>
+      </View>
+      <View style={styles.proudcts}>
+        <Text style={styles.proudctsTitle}>The New</Text>
+        <ScrollView style={styles.proudctsSV}>
+          <View style={styles.proudctsSVContainer}>
+            <View style={styles.proudctsSVContainerdiv}></View>
+            <View style={styles.proudctsSVContainerdiv}></View>
+            <View style={styles.proudctsSVContainerdiv}></View>
+            <View style={styles.proudctsSVContainerdiv}></View>
+            <View style={styles.proudctsSVContainerdiv}></View>
+            <View style={styles.proudctsSVContainerdiv}></View>
+            <View style={styles.proudctsSVContainerdiv}></View>
+            <View style={styles.proudctsSVContainerdiv}></View>
+            <View style={styles.proudctsSVContainerdiv}></View>
+            <View style={styles.proudctsSVContainerdiv}></View>
+            <View style={styles.proudctsSVContainerdiv}></View>
+            <View style={styles.proudctsSVContainerdiv}></View>
+
+
+          </View>
+        </ScrollView>
+      </View>
+    </View>
+
   );
 }
 
 const styles = StyleSheet.create({
-  catigory: {
-    width: 165,
-    aspectRatio: 3 / 4,
-    marginHorizontal: 10,
-    marginVertical: 15,
-    borderRadius: 12,
-    display: "flex",
-    textAlign: "center",
-    flexWrap: "nowrap",
-  },
-  slightBlackOverlay: {
-    ...StyleSheet.absoluteFillObject, // Fill the parent container
-    backgroundColor: 'rgba(0,0,0,0.2)', // Semi-transparent black
-    display: "flex",
-    justifyContent: "flex-end",
-    alignItems: "center",
-    borderRadius: 12,
-  },
   container: {
-    flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
     display: 'flex',
-    flexDirection: 'row',
-    flexWrap: "wrap",
-  },
-  title: {
-    fontSize: 20,
-    fontWeight: 'bold',
-  },
-  separator: {
-    marginVertical: 30,
-    height: 1,
-    width: '80%',
-  },
-  text: {
-    color: 'white',
-    fontSize: 20,
-    paddingVertical: 5
-  },
-  imgae: {
-    width: "auto",
+    flexDirection: 'column',
+    padding: "3%",
     height: "100%",
+    // backgroundColor: "blue",
+    gap: 15,
+  },
+  sold: {
+    backgroundColor: "lightseagreen",
+    width: "100%",
+    height: "20%",
     borderRadius: 12,
+  },
+  categorys: {
+    // backgroundColor: "seagreen",
+    height: "10%",
+    borderRadius: 12,
+    display: "flex",
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center"
+  },
+  category: {
+    backgroundColor: "green",
+    height: 60,
+    width: 60,
+    borderRadius: 100,
+    display:"flex",
+    justifyContent:"center",
+    alignItems:"center",
+  },
+  proudcts: {
+    // backgroundColor: "lightblue",
+    height: "62%",
+    borderRadius: 12,
+  },
+  proudctsTitle: {
+    fontSize: 22,
+    fontWeight: 600,
+    padding: 10,
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center"
+  },
+  proudctsSV: {
+  },
+  proudctsSVContainer: {
+    // backgroundColor: "black",
+    flex: 1,
+    flexDirection: "row",
+    gap: 20,
+    justifyContent: "center",
+    paddingVertical: 10,
+    flexWrap: "wrap"
+  },
+  proudctsSVContainerdiv: {
+    backgroundColor: "lightgreen",
+    width: "45%",
+    height: 170,
+    borderRadius: 12
   }
+
+
 });
+
+const sold = StyleSheet.create({
+  text: {
+    fontSize: 30
+  }
+})
 
 
