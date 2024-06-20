@@ -32,6 +32,23 @@ export function useThemeColor(
   }
 }
 
+export function useThemeColorVariant(
+  variantProps: { light?: string; dark?: string }
+) {
+  // Determine the current theme ('light' or 'dark')
+  const theme = useColorScheme() ?? 'light';
+  // Retrieve the color variant based on the current theme
+  const colorVariant = variantProps[theme];
+  // If a specific color variant is provided for the current theme, use it
+  // Otherwise, fall back to the default color variant from the theme
+  if (colorVariant) {
+    return colorVariant;
+  } else {
+    return Colors[theme]; // Assuming Colors is an object containing light and dark theme colors
+  }
+}
+
+
 export function Text(props: TextProps) {
   const { style, lightColor, darkColor, ...otherProps } = props;
   const color = useThemeColor({ light: lightColor, dark: darkColor }, 'text');

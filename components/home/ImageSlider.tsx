@@ -104,7 +104,7 @@ const ImageSlider = ({ intervalDuration = DEFAULT_INTERVAL_DURATION }) => {
       });
       const animatedBackgroundColor = animatedValue.interpolate({
         inputRange: [index - 1, index, index + 1],
-        outputRange: [BandW, 'lightseagreen', BandW],
+        outputRange: [BandW, 'seagreen', BandW],
         extrapolate: 'clamp',
       });
 

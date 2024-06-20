@@ -4,31 +4,16 @@ import FontAwesome from "@expo/vector-icons/FontAwesome";
 import EditScreenInfo from '@/components/EditScreenInfo';
 import { Text, View } from '@/components/Themed';
 import Colors from '@/constants/Colors';
-import { Shirt, Shirt2, Shirt3, Shirt5, Shirt6 } from '@/components/Svgs';
 import ImageSlider from '@/components/home/ImageSlider';
+import Categories from '@/components/home/Categories';
 
 
 export default function TabOneScreen() {
   return (
     <ScrollView>
       <View style={styles.container}>
-        {/* <View style={styles.soldContainer}>
-          <View style={styles.soldImage}>
-            <Image source={require('../../../assets/images/promotion.webp')} style={{ height: "100%", width: "100%", resizeMode: "cover", borderRadius: 12 }} />
-          </View>
-          <View style={styles.soldIndicator}></View>
-        </View> */}
         <ImageSlider/>
-        <View style={styles.categorysbig}>
-          <View style={styles.categorystitle}><Text style={styles.proudctsTitle}>Categorys</Text><Text style={styles.seeall}>See All</Text></View>
-          <View style={styles.categorys}>
-            <View style={styles.category}><Shirt Size={35} MainColor={"black"} Color1={"#D74B55"} Color2={'#FF5A64'} Color3={'#C8414B'} /></View>
-            <View style={styles.category}><Shirt2 Size={40} MainColor={"black"} Color1={'#B4E1FA'} Color2={'#A0D2F0'} /></View>
-            <View style={styles.category}><Shirt3 Size={35} MainColor={"black"} Color1={'#00C3FF'} Color2={'#FAEBC8'} Color3={'#EBC9A0'} Color4={'#0096DC'} Color5={'#00AAF0'} /></View>
-            <View style={styles.category}><Shirt5 Size={35} MainColor={"black"} Color1={'#FFDC64'} Color2={'#7DC882'} Color3={'#8CE187'} Color4={'#FFC850'} /></View>
-            <View style={styles.category}><Shirt6 Size={35} MainColor={"black"} Color1={'#00AAF0'} Color2={'#0096DC'} Color3={'#007DC8'} /></View>
-          </View>
-        </View>
+        <Categories/>
         <View style={styles.proudcts}>
           <View style={styles.categorystitle}><Text style={styles.proudctsTitle}>Shirt</Text><Text style={styles.seeall}>Filtter</Text></View>
           <ScrollView style={styles.proudctsSV}>
