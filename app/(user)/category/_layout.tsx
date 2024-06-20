@@ -7,7 +7,7 @@ import Colors from "@/constants/Colors";
 import { useThemeColor } from "@/components/Themed";
 
 export default function categoryStack() {
-  const color = useThemeColor({light:"white",dark:"black"},"background")
+  const color = useThemeColor({ light: "white", dark: "black" }, "background")
   return (
     <Stack
       // screenOptions={{
@@ -27,11 +27,41 @@ export default function categoryStack() {
       //   ),
 
       // }}
+      screenOptions={{
+        headerRight: () => (<>
+          <Link href="" asChild>
+            <Pressable>
+              {({ pressed }) => (
+                <FontAwesome
+                  name="search"
+                  size={22}
+                  color={Colors.light.tint}
+                  style={{ marginRight: 20, opacity: pressed ? 0.5 : 1 }}
+                />
+              )}
+            </Pressable>
+          </Link>
+          <Link href="" asChild>
+            <Pressable>
+              {({ pressed }) => (
+                <FontAwesome
+                  name="shopping-bag"
+                  size={22}
+                  color={Colors.light.tint}
+                  style={{ marginRight: 15, opacity: pressed ? 0.5 : 1 }}
+                />
+              )}
+            </Pressable>
+          </Link>
+        </>
+        ),
+
+      }}
     >
       <Stack.Screen
         name="index"
         options={{
-          title: "Home",headerTitleAlign:"center",headerStyle:{backgroundColor:color},headerShadowVisible:false
+          title: "Boutique", headerStyle: { backgroundColor: color }, headerShadowVisible: true,
         }}
       />
     </Stack>
