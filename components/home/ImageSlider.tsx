@@ -17,7 +17,8 @@ const ImageSlider = ({ intervalDuration = DEFAULT_INTERVAL_DURATION }) => {
   const imageWidth = Dimensions.get('window').width; // Get the device window width
   const [activeIndex, setActiveIndex] = useState(0); // State to track the current active index
   const flatlistRef = useRef<FlatList>(null); // Reference to the FlatList component
-  const BandW = useThemeColor({ light: 'black', dark: 'white' }, 'background'); // Hook to get theme color
+  const inactiveIndicatorColor = useThemeColor({ light: '#000', dark: '#fff' }, 'background'); // Hook to get inactive theme color
+  const activeIndicatorColor = useThemeColor({ light: '#d5e1eb', dark: 'bisque' }, 'background'); // Hook to get active theme color
 
   // Array of images to be displayed in the slider
   const imagesData = [
@@ -104,7 +105,7 @@ const ImageSlider = ({ intervalDuration = DEFAULT_INTERVAL_DURATION }) => {
       });
       const animatedBackgroundColor = animatedValue.interpolate({
         inputRange: [index - 1, index, index + 1],
-        outputRange: [BandW, 'seagreen', BandW],
+        outputRange: [inactiveIndicatorColor, activeIndicatorColor, inactiveIndicatorColor],
         extrapolate: 'clamp',
       });
 
