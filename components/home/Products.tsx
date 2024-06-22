@@ -140,6 +140,7 @@ const createStyles = (colors: any) => StyleSheet.create({
     flexWrap: 'wrap',
     justifyContent: 'space-between',
     padding: 5,
+    paddingTop:10,
   },
   product: {
     width: '47%',
