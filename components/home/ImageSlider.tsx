@@ -1,7 +1,8 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { View, FlatList, Image, StyleSheet, Dimensions, Animated, Easing } from 'react-native';
 import PropTypes from 'prop-types';
-import { useThemeColor } from '@/components/Themed';
+import { useThemeColor, useThemeColorVariant } from '@/components/Themed';
+import Colors from '@/constants/Colors';
 
 // Constants
 const IMAGE_WIDTH_OFFSET = 24; // Adjusting for padding/margin
@@ -12,13 +13,18 @@ const INDICATOR_ACTIVE_HEIGHT = 7.5; // Height of active indicator dot
 const DEFAULT_INTERVAL_DURATION = 5000; // Time between each slide in milliseconds
 const TRANSITION_DURATION = 300; // Time for each transition animation in milliseconds
 
+const img = Colors.lightImageSlider.dots
+
 // ImageSlider component
 const ImageSlider = ({ intervalDuration = DEFAULT_INTERVAL_DURATION }) => {
   const imageWidth = Dimensions.get('window').width; // Get the device window width
   const [activeIndex, setActiveIndex] = useState(0); // State to track the current active index
   const flatlistRef = useRef<FlatList>(null); // Reference to the FlatList component
-  const inactiveIndicatorColor = useThemeColor({ light: '#000', dark: '#fff' }, 'background'); // Hook to get inactive theme color
-  const activeIndicatorColor = useThemeColor({ light: '#d5e1eb', dark: 'bisque' }, 'background'); // Hook to get active theme color
+  // const inactiveIndicatorColor = useThemeColorVariant({ light: img, dark: '#fff' }); // Hook to get inactive theme color
+  // const activeIndicatorColor = useThemeColor({ light: '#d5e1eb', dark: 'bisque' }, 'background'); // Hook to get active theme color
+  
+  const inactiveIndicatorColor = useThemeColor({ light: Colors.lightImageSlider.dots, dark: Colors.darkImageSlider.dots }, 'background'); // Hook to get inactive theme color
+  const activeIndicatorColor = useThemeColor({ light: Colors.lightImageSlider.activeDots, dark: Colors.darkImageSlider.activeDots}, 'background'); // Hook to get active theme color
 
   // Array of images to be displayed in the slider
   const imagesData = [

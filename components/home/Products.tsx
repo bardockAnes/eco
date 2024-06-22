@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { StyleSheet, ScrollView, Pressable, Image, Modal, Text, View } from 'react-native';
 import { useThemeColorVariant } from '../Themed';
 import { FontAwesome, MaterialCommunityIcons, MaterialIcons } from '@expo/vector-icons'; // Import MaterialIcons
+import Colors from '@/constants/Colors';
 
 const Products = () => {
   const [filterVisible, setFilterVisible] = useState(false);
@@ -15,41 +16,10 @@ const Products = () => {
     // Add more products as needed with 'starred' property initialized
   ]);
 
-  // Define light and dark themes with complementary colors
-  const lightTheme = {
-    containerBackground: '#ffffff',
-    categoryBackground: '#f5f7fa',
-    headerTitle: '#2c3e50',
-    seeAllText: '#7f8c8d',
-    label: '#2c3e50',
-    productBackground: '#e0f7fa',
-    priceIcon: '#e74c3c', // FontAwesome icon color
-    starColor: '#ffffff', // Star icon color (white)
-    starBackground: '#3498db', // Background color for star icon (blue)
-    proButtonBackground: '#d5e1eb', // Matches the star background
-    proIconColor: '#ffffff', // White icon for contrast
-    proButtonText: '#ffffff', // White text for contrast
-  };
-  
-  const darkTheme = {
-    containerBackground: '#2c3e50',
-    categoryBackground: '#2e2e2e',
-    headerTitle: '#f5f5f5',
-    seeAllText: '#9e9e9e',
-    label: '#f5f5f5',
-    productBackground: '#2e2e2e',
-    priceIcon: '#e74c3c', // FontAwesome icon color
-    starColor: '#ffffff', // Star icon color (white)
-    starBackground: '#3498db', // Background color for star icon (blue)
-    proButtonBackground: 'bisque', // Complementary color for dark theme
-    proIconColor: '#455668', // Light icon for contrast
-    proButtonText: '#455668', // Light text for contrast
-  };
-  
 
-  const containerBackground = useThemeColorVariant({ light: lightTheme.containerBackground, dark: darkTheme.containerBackground });
+  const containerBackground = useThemeColorVariant({ light: Colors.lightProducts.containerBackground, dark: Colors.darkProducts.containerBackground });
 
-  const colors = containerBackground === '#ffffff' ? lightTheme : darkTheme;
+  const colors = containerBackground === Colors.lightProducts.containerBackground ? Colors.lightProducts : Colors.darkProducts;
 
   const styles = createStyles(colors);
 
@@ -80,7 +50,7 @@ const Products = () => {
         <Pressable onPress={openFilterModal} style={styles.proButton}>
           <MaterialCommunityIcons name="account-star" size={24} color={colors.proIconColor} />
           <Text style={styles.proButtonText}>Filter</Text>
-          </Pressable>
+        </Pressable>
       </View>
       <ScrollView style={styles.productsScrollView}>
         <View style={styles.productsContent}>
@@ -127,7 +97,8 @@ const createStyles = (colors: any) => StyleSheet.create({
     backgroundColor: colors.containerBackground,
     paddingVertical: 10,
     paddingHorizontal: 10,
-    borderRadius: 12
+    paddingBottom: 50,
+    borderRadius: 12,
   },
   header: {
     flexDirection: 'row',
@@ -168,7 +139,7 @@ const createStyles = (colors: any) => StyleSheet.create({
     flexDirection: 'row',
     flexWrap: 'wrap',
     justifyContent: 'space-between',
-    padding: 10,
+    padding: 5,
   },
   product: {
     width: '47%',

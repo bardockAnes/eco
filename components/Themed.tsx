@@ -33,7 +33,7 @@ export function useThemeColor(
 }
 
 export function useThemeColorVariant(
-  variantProps: { light?: string; dark?: string }
+  variantProps: { light?: any; dark?: any }
 ) {
   // Determine the current theme ('light' or 'dark')
   const theme = useColorScheme() ?? 'light';

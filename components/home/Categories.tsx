@@ -2,48 +2,16 @@ import React, { useState } from 'react';
 import { StyleSheet, Text, View, ScrollView, TouchableOpacity } from 'react-native';
 import { Shirts, Jeans, Casquette, Shoes, Vestes } from '@/components/Svgs';
 import { useThemeColorVariant } from '../Themed';
+import Colors from '@/constants/Colors';
 
 const Categories = () => {
-    // Define light and dark themes with complementary colors
-    const lightTheme = {
-        mainColor: '#2c3e50',
-        transparent: 'transparent',
-        categoryBackground: '#f5f7fa',
-        containerBackground: '#ffffff',
-        headerTitle: '#2c3e50',
-        seeAllText: '#7f8c8d',
-        color1: '#1abc9c', // Turquoise
-        color2: '#3498db', // Light blue
-        color3: '#e67e22', // Orange
-        color4: '#e74c3c', // Red
-        color5: '#9b59b6', // Purple
-        label: '#2c3e50',
-        activeCategoryBackground: '#d5e1eb', // Light blue gray for active category
-        activeCategoryText: '#000',
-    };
 
-    const darkTheme = {
-        mainColor: '#2c3e50',
-        transparent: 'transparent',
-        categoryBackground: '#34495e',
-        containerBackground: '#2c3e50',
-        headerTitle: '#ecf0f1',
-        seeAllText: '#bdc3c7',
-        color1: '#1abc9c', // Turquoise
-        color2: '#3498db', // Light blue
-        color3: '#e67e22', // Orange
-        color4: '#e74c3c', // Red
-        color5: '#9b59b6', // Purple
-        label: '#ecf0f1',
-        activeCategoryBackground: 'bisque', // Dark blue gray for active category
-        activeCategoryText: '#2c3e50',
-    };
 
-    const containerBackground = useThemeColorVariant({ light: lightTheme.containerBackground, dark: darkTheme.containerBackground });
+    const containerBackground = useThemeColorVariant({ light: Colors.lightCategories.containerBackground, dark: Colors.darkCategories.containerBackground });
 
     // Determine the current theme based on the containerBackground color
     const colors = {
-        ...(containerBackground === '#ffffff' ? lightTheme : darkTheme),
+        ...(containerBackground === Colors.lightCategories.containerBackground ? Colors.lightCategories : Colors.darkCategories),
         containerBackground,
     };
 

@@ -4,6 +4,7 @@ import { View, useThemeColor } from '@/components/Themed'; // Import useThemeCol
 import ImageSlider from '@/components/home/ImageSlider';
 import Categories from '@/components/home/Categories';
 import Products from '@/components/home/Products';
+import Colors from '@/constants/Colors';
 
 // SearchBar component
 const SearchBar = () => {
@@ -19,7 +20,7 @@ const SearchBar = () => {
 };
 
 const TabOneScreen = () => {
-  const containerBackground = useThemeColor({ light: '#ffffff', dark: '#2c3e50' }, 'background'); // Theme background color
+  const containerBackground = useThemeColor({ light: Colors.lightHome.background, dark: Colors.darkHome.background, }, 'background'); // Theme background color
 
   return (
     <ScrollView>
@@ -38,7 +39,7 @@ export default TabOneScreen;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#f5f7fa',
+    gap: 5,
     paddingHorizontal: 7,
     paddingVertical: 20,
   },

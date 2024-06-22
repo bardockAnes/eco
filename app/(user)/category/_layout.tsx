@@ -6,8 +6,8 @@ import Colors from "@/constants/Colors";
 import { useThemeColor } from "@/components/Themed";
 
 export default function categoryStack() {
-  const color = useThemeColor({ light: "white", dark: "black" }, "background");
-  const iconColor = useThemeColor({ light: Colors.light.tint, dark: Colors.dark.tint }, "text");
+  const color = useThemeColor({ light: Colors.lightHeader.backgroundcolor, dark: Colors.darkHeader.backgroundcolor }, "background");
+  const iconColor = useThemeColor({ light: Colors.lightHeader.headerIcon, dark: Colors.darkHeader.headerIcon, }, "text");
 
   return (
     <Stack
@@ -21,11 +21,12 @@ export default function categoryStack() {
                     name="info"
                     size={24}
                     color={iconColor}
-                    style={{ marginRight: 20, opacity: pressed ? 0.6 : 1 }}
+                    style={{ opacity: pressed ? 0.6 : 1 }}
                   />
                 )}
               </Pressable>
             </Link>
+
           </React.Fragment>
         ),
       }}
