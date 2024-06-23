@@ -1,18 +1,24 @@
 import React from 'react';
-import FontAwesome from '@expo/vector-icons/FontAwesome';
-import { Link, Redirect, Tabs } from 'expo-router';
-import { Pressable } from 'react-native';
+import { Redirect, Stack, Tabs } from 'expo-router';
 import Colors from '@/constants/Colors';
 import { useColorScheme } from '@/components/useColorScheme';
 import { useAuth } from '@/providers/AuthProviders';
-import { View } from '@/components/Themed';
+import { AntDesign, FontAwesome  } from '@expo/vector-icons';
 
 function TabBarIcon(props: {
   name: React.ComponentProps<typeof FontAwesome>['name'];
   color: string;
 }) {
-  return <FontAwesome size={25} style={{ marginBottom: -3 }} {...props} />;
+  return <FontAwesome size={23} style={{ marginBottom: -3, }} {...props} />;
 }
+
+function AntDesignIcon(props: {
+  name: React.ComponentProps<typeof AntDesign>['name'];
+  color: string;
+}) {
+  return <AntDesign size={22} style={{ marginBottom: -3 }} {...props} />;
+}
+
 
 export default function TabLayout() {
   const colorScheme = useColorScheme();
@@ -31,9 +37,8 @@ export default function TabLayout() {
         tabBarStyle: {
           height: 60,
           alignItems: 'center',
-          paddingBottom: 7,
           backgroundColor: Colors[colorScheme ?? 'light'].tabBarBackgroundcolor,
-          borderColor:"transparent",
+          borderColor: "transparent",
           borderRadius: 30, // Fully rounded corners
           marginHorizontal: 20, // Add horizontal margin to make it appear floating
           position: 'absolute', // Position the tab bar above the content
@@ -51,6 +56,8 @@ export default function TabLayout() {
         },
         tabBarItemStyle: {
           flex: 1,
+          paddingVertical: 2,
+          paddingBottom: 9,
         },
       }}
     >
@@ -59,43 +66,33 @@ export default function TabLayout() {
         options={{ href: null, headerShown: false }}
       />
       <Tabs.Screen
-        name="category"
+        name="home"
         options={{
           title: 'Home',
           headerShown: false,
           tabBarIcon: ({ color }) => <TabBarIcon name="home" color={color} />,
-          tabBarItemStyle: {
-            marginTop: 5
-          },
-          headerRight: () => (
-            <Link href="/modal" asChild>
-              <Pressable>
-                {({ pressed }) => (
-                  <FontAwesome
-                    name="info-circle"
-                    size={25}
-                    color={Colors[colorScheme ?? 'light'].text}
-                    style={{ marginRight: 15, opacity: pressed ? 0.5 : 1 }}
-                  />
-                )}
-              </Pressable>
-            </Link>
-          ),
         }}
       />
       <Tabs.Screen
-        name="orders"
+        name="categories"
         options={{
-          title: 'Categorais',
+          title: 'Categories',
           headerShown: false,
-          tabBarIcon: ({ color }) => <TabBarIcon name="th" color={color} />,
+          tabBarIcon: ({ color }) => <AntDesignIcon name="appstore-o"  color={color} />
         }}
       />
       <Tabs.Screen
-        name="users"
+        name="favorite"
         options={{
-          title: 'Fav',
-          tabBarIcon: ({ color }) => <TabBarIcon name="fa" color={color} />,
+          title: 'Favorite',
+          tabBarIcon: ({ color }) => <TabBarIcon name="star" color={color} />,
+        }}
+      />
+      <Tabs.Screen
+        name="settings"
+        options={{
+          title: 'Settings',
+          tabBarIcon: ({ color }) => <TabBarIcon name="cog" color={color} />,
         }}
       />
     </Tabs>

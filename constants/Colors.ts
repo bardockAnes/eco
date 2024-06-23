@@ -23,7 +23,7 @@ const accentColor2 = '#8ac926';  // Vibrant green
 export default {
   light: {
     text: textLightColor,
-    background: '#ffffff',
+    background: lightBackground,
     backgroundcolor: lightBackground,
     tint: tintColorLight,
     tabIconDefault: secondaryLightColor,
@@ -38,10 +38,11 @@ export default {
     mainShade2: mainLightColorShade2,
     accent1: accentColor1,
     accent2: accentColor2,
+    showBack: '#FFFFFF',
   },
   dark: {
     text: textDarkColor,
-    background: '#212529',
+    background: darkBackground,
     backgroundcolor: darkBackground,
     tint: tintColorDark,
     tabIconDefault: secondaryDarkColor,
@@ -56,6 +57,8 @@ export default {
     mainShade2: mainDarkColorShade2,
     accent1: accentColor1,
     accent2: accentColor2,
+    showBack: '#343A40',
+
   },
   // header 
   lightHeader: {

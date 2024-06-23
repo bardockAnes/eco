@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { StyleSheet, ScrollView, Pressable, Image, Modal, Text, View } from 'react-native';
 import { useThemeColorVariant } from '../Themed';
-import { FontAwesome, MaterialCommunityIcons, MaterialIcons } from '@expo/vector-icons'; // Import MaterialIcons
+import { FontAwesome, Ionicons } from '@expo/vector-icons';
 import Colors from '@/constants/Colors';
 
 const Products = () => {
@@ -48,8 +48,7 @@ const Products = () => {
       <View style={styles.header}>
         <Text style={styles.title}>{category}</Text>
         <Pressable onPress={openFilterModal} style={styles.proButton}>
-          <MaterialCommunityIcons name="account-star" size={24} color={colors.proIconColor} />
-          <Text style={styles.proButtonText}>Filter</Text>
+          <Ionicons name="options" size={24} color={colors.proIconColor} />
         </Pressable>
       </View>
       <ScrollView style={styles.productsScrollView}>
@@ -140,7 +139,7 @@ const createStyles = (colors: any) => StyleSheet.create({
     flexWrap: 'wrap',
     justifyContent: 'space-between',
     padding: 5,
-    paddingTop:10,
+    paddingTop: 10,
   },
   product: {
     width: '47%',
