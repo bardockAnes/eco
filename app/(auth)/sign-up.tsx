@@ -1,70 +1,124 @@
 import React, { useState } from "react";
-import { View, Text } from "@/components/Themed";
-import { Alert, Image, StyleSheet, TextInput } from "react-native";
-import Button from "@/components/Button";
-import { img } from "@/assets/data/work";
-import * as ImagePicker from 'expo-image-picker';
-import { Link, Redirect, Stack, useLocalSearchParams } from "expo-router";
+import { View, Text, Alert, StyleSheet, TextInput, TouchableOpacity } from "react-native";
+import { Link } from "@react-navigation/native"; // Assuming using React Navigation
 import { supabase } from "@/supabaseS/supabase";
-import { useAuth } from "@/providers/AuthProviders";
-
-export default function signup() {
-const [email,setEmail] = useState("");
-const [password,setPassword] = useState("");
-const [loading,setLoading] = useState(false);
-const  {session} = useAuth();
+import { Ionicons } from '@expo/vector-icons';
+import Button from "@/components/Button";
+import { useThemeColorVariant } from "@/components/Themed";
+import Colors from "@/constants/Colors";
 
 
-async function SingInWithEmail() {
-    setLoading(true)
-  const { error} = await supabase.auth.signUp({email, password})
-  if( error) { Alert.alert(error.message) }
-    setLoading(false)
-}
-if(session){ return <Redirect href={"/"} />}
+  
+
+export default function SignUp() {
+    const [email, setEmail] = useState("");
+    const [password, setPassword] = useState("");
+    const [loading, setLoading] = useState(false);
+
+    const containerBackground = useThemeColorVariant({ light: Colors.lightSign.background, dark: Colors.darkSign.background });
+    const colors = containerBackground === Colors.lightSign.background ? Colors.lightSign : Colors.darkSign;
+    const styles = createStyles(colors);
+
+    async function signUpWithEmail() {
+        setLoading(true);
+        const { error } = await supabase.auth.signUp({ email, password });
+        if (error) {
+            Alert.alert("Error", error.message);
+        }
+        setLoading(false);
+    }
+
     return (
         <View style={styles.container}>
-            <Stack.Screen options={{ title: "Sign up", headerTitleAlign: 'center', }} />
-            <Text style={styles.label}>Email</Text>
-            <TextInput style={styles.input} placeholder="exmple@gmail.com" value={email} onChangeText={setEmail} />
-            <Text style={styles.label}>Password</Text>
-            <TextInput style={styles.input} placeholder="******"  value={password} onChangeText={setPassword} secureTextEntry/>
-            <Text style={{ color: "red", textAlign: "center", paddingBottom: 5 }}></Text>
-            <Button onPress={SingInWithEmail} disabled={loading} text={loading? "Creating Account ..." : "Create Account" } />
-            <Link href={"/sign-in"} replace={true}  style={styles.deleteText}>Sign in</Link>
+            <Text style={styles.title}>Create Account</Text>
+            <Text style={styles.subtitle}>Sign up to get started</Text>
+            <View style={styles.inputContainer}>
+                <Ionicons name="mail-outline" size={20} color="#888" style={styles.icon} />
+                <TextInput 
+                    style={styles.input} 
+                    placeholder="Email Address" 
+                    value={email} 
+                    onChangeText={setEmail} 
+                    autoCapitalize="none" 
+                    keyboardType="email-address" 
+                    placeholderTextColor="#aaa"
+                />
+            </View>
+            <View style={styles.inputContainer}>
+                <Ionicons name="lock-closed-outline" size={20} color="#888" style={styles.icon} />
+                <TextInput 
+                    style={styles.input} 
+                    placeholder="Password"  
+                    value={password} 
+                    onChangeText={setPassword} 
+                    autoCapitalize="none" 
+                    secureTextEntry 
+                    placeholderTextColor="#aaa"
+                />
+            </View>
+            <Button 
+                text={loading ? "Creating Account ..." : "Create Account"} 
+                onPress={signUpWithEmail} 
+                disabled={loading} 
+                style={styles.button} 
+                backgroundColor={colors.tint}
+                textColor={colors.background}
+            />
+            <TouchableOpacity>
+                <Link to={"/sign-in"} style={styles.link}>Already have an account? Sign In</Link>
+            </TouchableOpacity>
         </View>
-    )
-
+    );
 }
 
-
-const styles = StyleSheet.create({
+const createStyles = (colors:any) => StyleSheet.create({
     container: {
         flex: 1,
         justifyContent: "center",
-        padding: 10,
+        padding: 20,
+        backgroundColor: colors.background,
+    },
+    title: {
+        fontSize: 28,
+        fontWeight: "bold",
+        color: colors.text,
+        marginBottom: 10,
+        textAlign: "center",
+    },
+    subtitle: {
+        fontSize: 16,
+        color: colors.text,
+        marginBottom: 30,
+        textAlign: "center",
+    },
+    inputContainer: {
+        flexDirection: "row",
+        alignItems: "center",
+        backgroundColor: colors.inputBackground,
+        padding: 15,
+        borderRadius: 10,
+        marginBottom: 20,
+        borderWidth: 1,
+        borderColor: colors.border,
+    },
+    icon: {
+        marginRight: 10,
     },
     input: {
-        backgroundColor: "white",
-        padding: 10,
-        borderRadius: 5,
-        marginTop: 5,
-        marginBottom: 20
-
+        flex: 1,
+        fontSize: 16,
+        color: colors.text,
     },
-    label: {
+    button: {
+        marginVertical: 20,
+        paddingVertical: 15,
+        borderRadius: 10,
+        backgroundColor: colors.buttonBackground,
+    },
+    link: {
+        textAlign: "center",
+        marginTop: 20,
+        color: colors.link,
         fontSize: 16,
     },
-    image: {
-        width: "50%",
-        aspectRatio: 1,
-        alignSelf: "center",
-        marginBottom: 10,
-    },
-    deleteText: {
-        textAlign: "center",
-        marginTop: 10,
-        color: "#2f95dc"
-    }
-
-})
+});

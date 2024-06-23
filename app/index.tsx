@@ -25,7 +25,7 @@ export default function firstPage() {
     return (
         <View style={styles.container}>
             <Stack.Screen options={{headerShown:false}}/>
-           <Link href="/(admin)/category" asChild><Button text="Admin"/></Link>
+           <Link href="/(admin)/home" asChild><Button text="Admin"/></Link>
            <Link href="/(user)/home" asChild><Button text="User" /></Link>
            <Button onPress={() => supabase.auth.signOut()} text="Sign out"/>
         </View>

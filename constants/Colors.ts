@@ -39,6 +39,7 @@ export default {
     accent1: accentColor1,
     accent2: accentColor2,
     showBack: '#FFFFFF',
+    border:"red"
   },
   dark: {
     text: textDarkColor,
@@ -58,6 +59,7 @@ export default {
     accent1: accentColor1,
     accent2: accentColor2,
     showBack: '#343A40',
+    border:"#22262a"
 
   },
   // header 
@@ -150,5 +152,23 @@ export default {
     proButtonBackground: mainDarkColor,
     proIconColor: '#212529',  // Dark icon for contrast
     proButtonText: '#212529',  // Dark text for contrast
-  }
+  },
+  lightSign: {
+    background: '#f8f9fa',          // Light grey background for elegance
+    text: '#212529',                // Dark grey for text
+    inputBackground: '#ffffff',     // White background for input fields
+    border: '#ced4da',              // Light grey for borders
+    buttonBackground: '#0077b6',    // Professional blue shade for buttons
+    tint: '#0077b6',                // Professional blue shade for tinting elements
+    link: '#0077b6',                // Professional blue shade for links
+  },
+  darkSign: {
+    background: '#212529',          // Deep grey for dark mode sophistication
+    text: '#f8f9fa',                // Light grey for text
+    inputBackground: '#343a40',     // Dark grey background for input fields
+    border: '#495057',              // Mid-grey for borders
+    buttonBackground: '#ffeead',    // Soft pastel yellow for contrast in dark mode
+    tint: '#ffeead',                // Soft pastel yellow for tinting elements
+    link: '#ffeead',                // Soft pastel yellow for links
+  },
 };
