@@ -3,6 +3,7 @@ import { StyleSheet, ScrollView, View, Text, TouchableOpacity, TouchableWithoutF
 import { Ionicons } from '@expo/vector-icons';
 import { useThemeColorVariant } from '@/components/Themed';
 import Colors from '@/constants/Colors';
+import { supabase } from '@/supabaseS/supabase';
 
 export default function UserSettings() {
   const [darkModeOption, setDarkModeOption] = useState('system');
@@ -16,7 +17,7 @@ export default function UserSettings() {
 
 
   const handleSignOut = () => {
-    // Handle sign out logic
+    supabase.auth.signOut()
   };
 
   const toggleDarkMode = (option: React.SetStateAction<string>) => {
