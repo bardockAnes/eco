@@ -1,25 +1,29 @@
 import React, { useEffect, useState } from "react";
-import { View, Text } from "@/components/Themed";
-import { Alert, Image, StyleSheet, TextInput } from "react-native";
+import { View, Text, ScrollView, StyleSheet, TextInput, Alert, ActivityIndicator } from "react-native";
 import Button from "@/components/Button";
-import { img } from "@/assets/data/work";
 import * as ImagePicker from 'expo-image-picker';
 import { Stack, useLocalSearchParams, useRouter } from "expo-router";
 import { useInsertProduct, useUpdateProduct, useWorks, useDeleteWork } from "@/api/works";
 import * as FileSystem from 'expo-file-system';
 import { randomUUID } from "expo-crypto";
 import { supabase } from "@/supabaseS/supabase";
-import { decode } from 'base64-arraybuffer'
+import { decode } from 'base64-arraybuffer';
 import RemoteImage from "@/components/RemoteImage";
+import { img } from "@/assets/data/work";
+import { useThemeColor, useThemeColorVariant } from "@/components/Themed";
+import Colors from "@/constants/Colors";
+import { color } from "react-native-elements/dist/helpers";
+
 const plusScren = () => {
     const [name, setName] = useState("");
     const [price, setPrice] = useState("");
     const [category, setCategory] = useState("");
     const [errors, setErrors] = useState("");
     const [image, setImage] = useState<string | null>(null);
+    const [loading, setLoading] = useState(false);
 
     const { id: idString } = useLocalSearchParams();
-    const id = parseFloat(typeof idString === "string" ? idString : idString?.[0] ?? '')
+    const id = parseFloat(typeof idString === "string" ? idString : idString?.[0] ?? '');
     const isUpdating = !!idString;
 
     const { mutate: insertProduct } = useInsertProduct();
@@ -29,6 +33,10 @@ const plusScren = () => {
 
     const router = useRouter();
 
+    const containerBackground = useThemeColorVariant({ light: Colors.light.background, dark: Colors.dark.background });
+    const colors = containerBackground === Colors.light.background ? Colors.light : Colors.dark;
+    const styles = createStyles(colors);
+
     useEffect(() => {
         if (updatingProduct) {
             setName(updatingProduct.name);
@@ -36,94 +44,89 @@ const plusScren = () => {
             setImage(updatingProduct.image);
             setCategory(updatingProduct.category);
         }
-
-    }, [updatingProduct])
+    }, [updatingProduct]);
 
     const reset = () => {
-        setName("")
-        setCategory("")
-        setPrice("")
-    }
+        setName("");
+        setCategory("");
+        setPrice("");
+    };
 
     const validateInput = () => {
-        const AllCategorys = ['bed', 'wardrobe','bed-table','decor','kitchen','tv-table','desk','bathroom']
-        
+        const AllCategories = ['bed', 'wardrobe', 'bed-table', 'decor', 'kitchen', 'tv-table', 'desk', 'bathroom'];
+
         setErrors("");
         if (!name) {
-            setErrors("must have name")
-            return false
+            setErrors("must have name");
+            return false;
         }
         if (!price) {
-            setErrors("must have price")
-            return false
+            setErrors("must have price");
+            return false;
         }
         if (isNaN(parseFloat(price))) {
-            setErrors("pirce must be number")
-            return false
+            setErrors("price must be a number");
+            return false;
         }
-        if (!AllCategorys.includes(category)) {
-            setErrors("The category must be one of this : bed  wardrobe  bed-table  decor  kitchen  tv-table  desk  bathroom")
-            return false
+        if (!AllCategories.includes(category)) {
+            setErrors("The category must be one of these: bed, wardrobe, bed-table, decor, kitchen, tv-table, desk, bathroom");
+            return false;
         }
- 
-            return true;
-    }
+
+        return true;
+    };
 
     const Update = () => {
         if (isUpdating) {
-            UpdateOld()
-        }
-        else {
+            UpdateOld();
+        } else {
             CreateNew();
         }
-    }
+    };
 
     const CreateNew = async () => {
         if (!validateInput()) {
             return;
         }
 
+        setLoading(true); // Start loading
         const imagePath = await uploadImage();
 
         insertProduct({ name, category, price: parseFloat(price), image: imagePath }, {
             onSuccess: () => {
+                setLoading(false); // Stop loading
                 reset();
                 router.back();
-            }
-        })
-
-
-
+            },
+            onError: () => setLoading(false) // Stop loading on error
+        });
     };
 
     const UpdateOld = async () => {
         if (!validateInput()) {
             return;
         }
+
+        setLoading(true); // Start loading
         const imagePath = await uploadImage();
 
         updateWorks({ id, name, price: parseFloat(price), image: imagePath }, {
             onSuccess: () => {
+                setLoading(false); // Stop loading
                 reset();
                 router.back();
-            }
-        })
-
+            },
+            onError: () => setLoading(false) // Stop loading on error
+        });
     };
 
-
-
-
     const pickImage = async () => {
-        // No permissions request is necessary for launching the image library
         let result = await ImagePicker.launchImageLibraryAsync({
             mediaTypes: ImagePicker.MediaTypeOptions.Images,
             allowsEditing: true,
-            aspect: [2,3],
+            aspect: [2, 3],
             quality: 1,
         });
-
-
 
         if (!result.canceled) {
             setImage(result.assets[0].uri);
@@ -131,26 +134,29 @@ const plusScren = () => {
     };
 
     const deleteWork = () => {
+        setLoading(true); // Start loading
         deleteWorks(id, {
             onSuccess: () => {
+                setLoading(false); // Stop loading
                 reset();
                 router.replace('/(admin)');
-            }
+            },
+            onError: () => setLoading(false) // Stop loading on error
         });
     };
 
     const confirmDelete = () => {
-        Alert.alert("   تأكيد", " هل تريد مسح هذا العمل ؟", [
+        Alert.alert("Confirmation", "Are you sure you want to delete this work?", [
             {
-                text: "رجوع",
+                text: "Cancel",
                 style: "cancel"
             },
             {
-                text: "     مسح",
+                text: "Delete",
                 onPress: deleteWork,
                 style: "destructive",
             }
-        ])
+        ]);
     };
 
     const uploadImage = async () => {
@@ -173,58 +179,105 @@ const plusScren = () => {
     };
 
     return (
-        <View style={styles.container}>
-            <Stack.Screen options={{ title: isUpdating ? "Update" : "Create New", headerTitleAlign: 'center', }} />
+        <ScrollView contentContainerStyle={styles.container}>
+            <Stack.Screen
+                options={{ title: isUpdating ? "Update" : "Create New", headerTitleAlign: 'center', headerShadowVisible: false, }}
+            />
             <RemoteImage path={image} fallback={img} style={styles.image} />
-            <Text style={styles.imgText} onPress={pickImage}>Selcet image</Text>
+            <Text style={styles.imgText} onPress={pickImage}>Select Image</Text>
             <Text style={styles.label}>Name</Text>
-            <TextInput style={styles.input} placeholder="name" value={name} onChangeText={setName} />
+            <TextInput
+                style={styles.input}
+                placeholder="Name"
+                value={name}
+                onChangeText={setName}
+                placeholderTextColor={colors.secondary}
+            />
             <Text style={styles.label}>Category</Text>
-            <TextInput style={styles.input} placeholder="category" value={category} onChangeText={setCategory} autoCapitalize="none" />
-            <Text style={styles.label}>Price - DA -</Text>
-            <TextInput style={styles.input} placeholder="5 0000 DA" keyboardType="numeric" value={price} onChangeText={setPrice} />
-            <Text style={{ color: "red", textAlign: "center", paddingBottom: 5 }}>{errors}</Text>
-            <Button text={isUpdating ? "Update" : "Create"} backgroundColor="red" textColor="black" onPress={isUpdating ? Update : CreateNew} />
-            {isUpdating && <Text onPress={confirmDelete} style={styles.deleteText}>Delete</Text>}
-        </View>
-    )
-}
+            <TextInput
+                style={styles.input}
+                placeholder="Category"
+                value={category}
+                onChangeText={setCategory}
+                autoCapitalize="none"
+                placeholderTextColor={colors.secondary}
+            />
+            <Text style={styles.label}>Price (DZD)</Text>
+            <TextInput
+                style={styles.input}
+                placeholder="50 000 DZD"
+                keyboardType="numeric"
+                value={price}
+                onChangeText={setPrice}
+                placeholderTextColor={colors.secondary}
+            />
+            <Text style={styles.errorText}>{errors}</Text>
+            {!loading && <Button
+                text={isUpdating ? "Update" : "Create"}
+                backgroundColor={colors.tint}
+                textColor={colors.background}
+                onPress={isUpdating ? Update : CreateNew}
+            />}
+            {loading && <ActivityIndicator size="large" color={colors.tint} />}
+            {isUpdating && !loading && (
+                <Text onPress={confirmDelete} style={styles.deleteText}>
+                    Delete
+                </Text>
+            )}
+        </ScrollView>
+    );
+};
 
-const styles = StyleSheet.create({
+const createStyles = (colors: any) => StyleSheet.create({
     container: {
-        flex: 1,
+        flexGrow: 1,
         justifyContent: "center",
-        padding: 10,
+        padding: 20,
+        backgroundColor: colors.background,
+        paddingBottom: 100,
     },
     input: {
-        backgroundColor: "white",
-        padding: 10,
-        borderRadius: 5,
-        marginTop: 5,
-        marginBottom: 20
-
+        backgroundColor: colors.showBack,
+        color: colors.text,
+        padding: 15,
+        borderRadius: 10,
+        marginTop: 10,
+        marginBottom: 20,
+        borderColor: colors.border,
+        borderWidth: 1
     },
     label: {
-        fontSize: 16,
+        fontSize: 18,
+        fontWeight: "bold",
+        color: colors.text,
+        marginBottom: 5
     },
     image: {
-        width: "50%",
-        aspectRatio: 1,
+        width: "80%",
+        aspectRatio: 2 / 3,
         alignSelf: "center",
-        marginBottom: 10,
+        marginBottom: 20,
+        borderRadius: 15,
+        borderWidth: 1,
+        borderColor: colors.secondary,
     },
     imgText: {
         textAlign: "center",
         marginBottom: 20,
-        color: "#2f95dc"
+        color: colors.tint,
+        fontSize: 16
+    },
+    errorText: {
+        color: "red",
+        textAlign: "center",
+        marginBottom: 10
     },
     deleteText: {
         textAlign: "center",
-        marginTop: 10,
-        color: "#2f95dc"
+        marginTop: 20,
+        color: colors.tint,
+        fontSize: 16
     }
-
-})
+});
 
 export default plusScren;
-

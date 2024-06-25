@@ -14,7 +14,7 @@ export default function firstPage() {
     const background = useThemeColorVariant({ light: Colors.light.background, dark: Colors.dark.background })
     const tint = useThemeColorVariant({ light: Colors.light.tint, dark: Colors.dark.tint })
     const text = useThemeColorVariant({ light: Colors.light.text, dark: Colors.dark.text })
-
+ 
 
     if (loading) {
         return <ActivityIndicator />

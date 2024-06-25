@@ -26,16 +26,15 @@ export default function categoryStack() {
                 )}
               </Pressable>
             </Link>
-
           </React.Fragment>
         ),
+        headerStyle: { backgroundColor: color },
       }}
     >
       <Stack.Screen
         name="index"
         options={{
           title: "Boutique",
-          headerStyle: { backgroundColor: color },
           headerShadowVisible: true,
         }}
       />

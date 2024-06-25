@@ -10,33 +10,29 @@ export default function categoryStack() {
   const iconColor = useThemeColor({ light: Colors.lightHeader.headerIcon, dark: Colors.darkHeader.headerIcon, }, "text");
 
   return (
-    <Stack
-      screenOptions={{
-        headerRight: () => (
-          <React.Fragment>
-            <Link href="/(admin)/home/plus" asChild>
-              <Pressable>
-                {({ pressed }) => (
-                  <Feather
-                    name="plus"
-                    size={24}
-                    color={iconColor}
-                    style={{ opacity: pressed ? 0.6 : 1 }}
-                  />
-                )}
-              </Pressable>
-            </Link>
-
-          </React.Fragment>
-        ),
-      }}
-    >
+    <Stack screenOptions={{headerStyle: { backgroundColor: color }}}>
       <Stack.Screen
         name="index"
         options={{
           title: "Boutique",
-          headerStyle: { backgroundColor: color },
           headerShadowVisible: true,
+          headerRight: () => (
+            <React.Fragment>
+              <Link href="/(admin)/home/plus" asChild>
+                <Pressable>
+                  {({ pressed }) => (
+                    <Feather
+                      name="plus"
+                      size={24}
+                      color={iconColor}
+                      style={{ opacity: pressed ? 0.6 : 1 }}
+                    />
+                  )}
+                </Pressable>
+              </Link>
+  
+            </React.Fragment>
+          ),
         }}
       />
     </Stack>

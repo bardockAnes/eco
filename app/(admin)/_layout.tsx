@@ -31,6 +31,7 @@ export default function TabLayout() {
   return (
     <Tabs
       screenOptions={{
+        tabBarHideOnKeyboard: true,
         tabBarActiveTintColor: Colors[colorScheme ?? 'light'].tabBarActiveTintColor,
         tabBarInactiveTintColor: Colors[colorScheme ?? 'light'].tabBarInactiveTintColor,
         headerShown: false,
@@ -49,7 +50,7 @@ export default function TabLayout() {
           shadowColor: '#000', // Shadow color for iOS
           shadowOffset: { width: 0, height: 2 }, // Shadow offset for iOS
           shadowOpacity: 0.25, // Shadow opacity for iOS
-          shadowRadius: 3.84, // Shadow radius for iOS
+          shadowRadius: 3.84, // Shadow radius for iOS          
         },
         tabBarLabelStyle: {
           textAlign: 'center',

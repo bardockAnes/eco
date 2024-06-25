@@ -5,11 +5,11 @@ import { Text } from "./Themed";
 import RemoteImage from '../components/RemoteImage'
 import { img } from "@/assets/data/work";
 type WorkslistProps = {
-    works: Tables<"works">;
+  works: Tables<"works">;
 };
 
-export const noimg = 
-'https://plus.unsplash.com/premium_photo-1676968002954-d165313b5601?q=80&w=1374&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D';
+export const noimg =
+  'https://plus.unsplash.com/premium_photo-1676968002954-d165313b5601?q=80&w=1374&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D';
 
 const Workslist = ({ works }: WorkslistProps) => {
   const segments = useSegments();
@@ -17,9 +17,9 @@ const Workslist = ({ works }: WorkslistProps) => {
     <Link href={`/${segments[0]}/category/${works.id}`} asChild>
       <Pressable style={styles.catigory}>
         <RemoteImage
-path={works.image}
-fallback={img}
-style={{ width: "100%", height: "80%", borderRadius: 12 }}
+          path={works.image}
+          fallback={img}
+          style={{ width: "100%", height: "80%", borderRadius: 12 }}
         />
         <Text style={styles.text}>{works.name}</Text>
         <Text style={styles.textPrice}>{works.price} 0000 DA</Text>

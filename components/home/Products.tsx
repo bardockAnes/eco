@@ -6,6 +6,7 @@ import Colors from '@/constants/Colors';
 import { useWorksList } from '@/api/works';
 import RemoteImage from '../RemoteImage';
 import { LinearGradient } from 'expo-linear-gradient';
+import { Link, useSegments } from 'expo-router';
 
 type ProductsProps = {
   category: string;
@@ -13,10 +14,11 @@ type ProductsProps = {
 
 const Products: React.FC<ProductsProps> = ({ category }) => {
   const { data: works, error, isLoading } = useWorksList(category);
-  console.warn(category)
 
   const [filterVisible, setFilterVisible] = useState(false);
   const [categoryName, setCategoryName] = useState('New Arrivals');
+
+  const segments = useSegments();
 
 
   // Theme Color
@@ -54,23 +56,25 @@ const Products: React.FC<ProductsProps> = ({ category }) => {
       <ScrollView style={styles.worksScrollView}>
         <View style={styles.worksContent}>
           {works && works.map((work) => (
-            <Pressable key={work.id} style={styles.work}>
-              <RemoteImage
-                path={work.image}
-                fallback="https://via.placeholder.com/200"
-                style={{ width: "100%", aspectRatio: 2 / 3, borderRadius: 12 }}
-              />
-              <View style={styles.workOverlay}>
-                <LinearGradient
-                  colors={['transparent', 'rgba(0, 0, 0, 0.1)']}
-                  style={styles.gradient}
+            <Link href={`/${segments[0]}/home/${work.id}`} key={work.id} asChild>
+              <Pressable  style={styles.work}>
+                <RemoteImage
+                  path={work.image}
+                  fallback="https://via.placeholder.com/200"
+                  style={{ width: "100%", aspectRatio: 2 / 3, borderRadius: 12 }}
                 />
-                <View style={styles.workDetails}>
-                  <Text style={styles.workLabel}>{work.name}</Text>
-                  <Text style={styles.workPrice}>{work.price} DZD</Text>
+                <View style={styles.workOverlay}>
+                  <LinearGradient
+                    colors={['transparent', 'rgba(0, 0, 0, 0.14)']}
+                    style={styles.gradient}
+                  />
+                  <View style={styles.workDetails}>
+                    <Text style={styles.workLabel}>{work.name}</Text>
+                    <Text style={styles.workPrice}>{work.price} DZD</Text>
+                  </View>
                 </View>
-              </View>
-            </Pressable>
+              </Pressable>
+            </Link>
           ))}
         </View>
       </ScrollView>

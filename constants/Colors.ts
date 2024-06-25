@@ -39,7 +39,8 @@ export default {
     accent1: accentColor1,
     accent2: accentColor2,
     showBack: '#FFFFFF',
-    border:"red"
+    border:"#DDDDDD",
+    textP:"#6B7280"
   },
   dark: {
     text: textDarkColor,
@@ -59,7 +60,8 @@ export default {
     accent1: accentColor1,
     accent2: accentColor2,
     showBack: '#343A40',
-    border:"#22262a"
+    border:"#22262a",
+     textP:"#AAAAAA"
 
   },
   // header 
@@ -171,4 +173,19 @@ export default {
     tint: '#ffeead',                // Soft pastel yellow for tinting elements
     link: '#ffeead',                // Soft pastel yellow for links
   },
+  lightNew: {
+    background: '#FFFFFF',     // White background for light theme
+    text: '#000000',           // Black text for light theme
+    textP: '#666666',          // Lighter text for descriptions in light theme
+    tint: '#4A90E2',           // Blue tint for buttons and highlights in light theme
+    border: '#CCCCCC',         // Light gray border color for light theme
+  },
+  darkNew: {
+    background: '#1C1C1E',     // Dark background for dark theme
+    text: '#FFFFFF',           // White text for dark theme
+    textP: '#AAAAAA',          // Lighter text for descriptions in dark theme
+    tint: '#4A90E2',           // Blue tint for buttons and highlights in dark theme
+    border: '#3A3A3C',         // Darker gray border color for dark theme
+  },
 };
+
