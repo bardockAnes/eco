@@ -14,7 +14,7 @@ export default function categoryStack() {
       screenOptions={{
         headerRight: () => (
           <React.Fragment>
-            <Link href="/info" asChild>
+            <Link href="/(admin)/home/plus" asChild>
               <Pressable>
                 {({ pressed }) => (
                   <Feather

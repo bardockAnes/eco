@@ -1,23 +1,26 @@
 import { supabase } from "@/supabaseS/supabase"
-import { useMutation, useQuery, useQueryClient} from "@tanstack/react-query"
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query"
 
 
 
 
-
-export const useWorksList = (category : string) => {
-
+export const useWorksList = (category?: string) => {
   return useQuery({
-    queryKey: ['works'],
+    queryKey: ['works', category],
     queryFn: async () => {
-      const { data, error } = await supabase.from('works').select('*').eq('category',category)
-      if (error) {
-        throw new Error(error.message)
+      let query = supabase.from('works').select('*').order('created_at', { ascending: false });
+      if (category && category !== 'All') {
+        query = query.eq('category', category);
       }
-      return data
+      const { data, error } = await query;
+      if (error) {
+        throw new Error(error.message);
+      }
+      return data;
     }
-  })
-}
+  });
+};
+
 
 
 export const useWorks = (id: number) => {
@@ -26,8 +29,8 @@ export const useWorks = (id: number) => {
   return useQuery({
     queryKey: ['works', id],
     queryFn: async () => {
-      const { data , error } = await supabase
-      .from('works')
+      const { data, error } = await supabase
+        .from('works')
         .select('*')
         .eq('id', id)
         .single();
@@ -66,7 +69,7 @@ export const useInsertProduct = () => {
       return newProduct;
     },
     async onSuccess() {
-      await queryClient.invalidateQueries({queryKey:['works']});
+      await queryClient.invalidateQueries({ queryKey: ['works'] });
     },
   });
 };
@@ -74,8 +77,8 @@ export const useInsertProduct = () => {
 export const useUpdateProduct = () => {
   const queryClient = useQueryClient();
   return useMutation({
-      async mutationFn(data : any) {
-        const { error, data: updateWorks } = await supabase
+    async mutationFn(data: any) {
+      const { error, data: updateWorks } = await supabase
         .from('works')
         .update({
           name: data.name,
@@ -83,20 +86,20 @@ export const useUpdateProduct = () => {
           price: data.price,
           category: data.category
         })
-        .eq('id',data.id)
+        .eq('id', data.id)
         .select()
-          .single();
+        .single();
 
-        if (error) {
-          throw new Error(error.message)
-        }
-        return updateWorks;
-      },
-      async onSuccess(_,{id}) {
-        await queryClient.invalidateQueries({queryKey:['works']});
-        await queryClient.invalidateQueries({queryKey :['works', id]});
-      },
-    })
+      if (error) {
+        throw new Error(error.message)
+      }
+      return updateWorks;
+    },
+    async onSuccess(_, { id }) {
+      await queryClient.invalidateQueries({ queryKey: ['works'] });
+      await queryClient.invalidateQueries({ queryKey: ['works', id] });
+    },
+  })
 }
 
 
@@ -104,16 +107,16 @@ export const useDeleteWork = () => {
   const queryClient = useQueryClient();
 
   return useMutation({
-    async mutationFn(id : number){
-      const {error} = await supabase.from('works')
-      .delete()
-      .eq('id', id);
+    async mutationFn(id: number) {
+      const { error } = await supabase.from('works')
+        .delete()
+        .eq('id', id);
       if (error) {
         throw new Error(error.message)
       }
     },
-     async onSuccess() {
-      await queryClient.invalidateQueries({queryKey:['works']});
+    async onSuccess() {
+      await queryClient.invalidateQueries({ queryKey: ['works'] });
     }
   })
 }

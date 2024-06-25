@@ -1,26 +1,27 @@
 import React, { useState } from 'react';
 import { StyleSheet, ScrollView, Pressable, Image, Modal, Text, View } from 'react-native';
-import { useThemeColorVariant } from '../Themed';
+import { ActivityIndicator, useThemeColorVariant } from '../Themed';
 import { FontAwesome, Ionicons } from '@expo/vector-icons';
 import Colors from '@/constants/Colors';
+import { useWorksList } from '@/api/works';
+import RemoteImage from '../RemoteImage';
+import { LinearGradient } from 'expo-linear-gradient';
 
-const Products = () => {
+type ProductsProps = {
+  category: string;
+};
+
+const Products: React.FC<ProductsProps> = ({ category }) => {
+  const { data: works, error, isLoading } = useWorksList(category);
+  console.warn(category)
+
   const [filterVisible, setFilterVisible] = useState(false);
-  const [category, setCategory] = useState('New Arrivals');
-  const [products, setProducts] = useState([
-    { id: 1, name: 'Product 1', price: 1999, image: 'https://images.unsplash.com/photo-1526170375885-4d8ecf77b99f', starred: false },
-    { id: 2, name: 'Product 2', price: 2999, image: 'https://images.unsplash.com/photo-1521572163474-6864f9cf17ab', starred: false },
-    { id: 3, name: 'Product 3', price: 3999, image: 'https://images.unsplash.com/photo-1544716278-ca5e3f4abd8c', starred: false },
-    { id: 4, name: 'Product 4', price: 4999, image: 'https://images.unsplash.com/photo-1495020689067-958852a7765e', starred: false },
-    { id: 5, name: 'Product 5', price: 5999, image: 'https://images.unsplash.com/photo-1512436991641-6745cdb1723f', starred: false },
-    // Add more products as needed with 'starred' property initialized
-  ]);
+  const [categoryName, setCategoryName] = useState('New Arrivals');
 
 
+  // Theme Color
   const containerBackground = useThemeColorVariant({ light: Colors.lightProducts.containerBackground, dark: Colors.darkProducts.containerBackground });
-
   const colors = containerBackground === Colors.lightProducts.containerBackground ? Colors.lightProducts : Colors.darkProducts;
-
   const styles = createStyles(colors);
 
   const openFilterModal = () => {
@@ -29,45 +30,45 @@ const Products = () => {
 
   const closeFilterModal = (newCategory: React.SetStateAction<string> | null) => {
     if (newCategory) {
-      setCategory(newCategory);
+      setCategoryName(newCategory);
     }
     setFilterVisible(false);
   };
 
-  const handleStarPress = (productId: number) => {
-    // Toggle star color on click
-    setProducts(prevProducts =>
-      prevProducts.map(product =>
-        product.id === productId ? { ...product, starred: !product.starred } : product
-      )
-    );
-  };
+  if (isLoading) {
+    return <ActivityIndicator />;
+  }
+
+  if (error) {
+    return <Text>Error fetching the data</Text>;
+  }
 
   return (
-    <View style={styles.productsContainer}>
+    <View style={styles.worksContainer}>
       <View style={styles.header}>
-        <Text style={styles.title}>{category}</Text>
+        <Text style={styles.title}>{categoryName}</Text>
         <Pressable onPress={openFilterModal} style={styles.proButton}>
           <Ionicons name="options" size={24} color={colors.proIconColor} />
         </Pressable>
       </View>
-      <ScrollView style={styles.productsScrollView}>
-        <View style={styles.productsContent}>
-          {products.map((product) => (
-            <Pressable key={product.id} style={styles.product}>
-              <Image style={styles.productImage} source={{ uri: product.image }} />
-              <View style={styles.productOverlay}>
-                <View style={styles.productDetails}>
-                  <Text style={styles.productLabel}>{product.name}</Text>
-                  <Text style={styles.productPrice}>{product.price} DZD</Text>
+      <ScrollView style={styles.worksScrollView}>
+        <View style={styles.worksContent}>
+          {works && works.map((work) => (
+            <Pressable key={work.id} style={styles.work}>
+              <RemoteImage
+                path={work.image}
+                fallback="https://via.placeholder.com/200"
+                style={{ width: "100%", aspectRatio: 2 / 3, borderRadius: 12 }}
+              />
+              <View style={styles.workOverlay}>
+                <LinearGradient
+                  colors={['transparent', 'rgba(0, 0, 0, 0.1)']}
+                  style={styles.gradient}
+                />
+                <View style={styles.workDetails}>
+                  <Text style={styles.workLabel}>{work.name}</Text>
+                  <Text style={styles.workPrice}>{work.price} DZD</Text>
                 </View>
-                <Pressable onPress={() => handleStarPress(product.id)} style={styles.starContainer}>
-                  <FontAwesome
-                    name="star"
-                    size={24}
-                    color={product.starred ? '#f39c12' : colors.starColor}
-                  />
-                </Pressable>
               </View>
             </Pressable>
           ))}
@@ -76,7 +77,7 @@ const Products = () => {
       <Modal visible={filterVisible} animationType="slide" transparent={true}>
         <View style={styles.modalContainer}>
           <View style={styles.modalContent}>
-            <Text style={styles.modalTitle}>Filter Products</Text>
+            <Text style={styles.modalTitle}>Filter Works</Text>
             <Pressable onPress={() => closeFilterModal('New Arrivals')}><Text style={styles.modalButtonText}>New Arrivals</Text></Pressable>
             <Pressable onPress={() => closeFilterModal('Popular')}><Text style={styles.modalButtonText}>Popular</Text></Pressable>
             <Pressable onPress={() => closeFilterModal('On Sale')}><Text style={styles.modalButtonText}>On Sale</Text></Pressable>
@@ -91,7 +92,7 @@ const Products = () => {
 export default Products;
 
 const createStyles = (colors: any) => StyleSheet.create({
-  productsContainer: {
+  worksContainer: {
     flex: 1,
     backgroundColor: colors.containerBackground,
     paddingVertical: 10,
@@ -129,20 +130,19 @@ const createStyles = (colors: any) => StyleSheet.create({
     color: colors.proButtonText,
     fontWeight: 'bold',
   },
-  productsScrollView: {
+  worksScrollView: {
     borderRadius: 12,
     overflow: 'hidden', // Ensure rounded corners
     marginBottom: 10,
   },
-  productsContent: {
+  worksContent: {
     flexDirection: 'row',
     flexWrap: 'wrap',
     justifyContent: 'space-between',
-    padding: 5,
     paddingTop: 10,
   },
-  product: {
-    width: '47%',
+  work: {
+    width: '48.5%',
     backgroundColor: colors.productBackground,
     borderRadius: 12,
     marginBottom: 10,
@@ -154,26 +154,29 @@ const createStyles = (colors: any) => StyleSheet.create({
     overflow: 'hidden', // Ensure image overlay is contained within border radius
     position: 'relative', // Needed for absolute positioning of overlay
   },
-  productImage: {
+  workImage: {
     width: '100%',
     height: 200, // Adjust image height as needed
     borderRadius: 12,
   },
-  productOverlay: {
+  workOverlay: {
     ...StyleSheet.absoluteFillObject, // Position overlay absolutely within parent
-    backgroundColor: 'transparent', // Transparent background
-    paddingHorizontal: 10,
     justifyContent: 'flex-end', // Align content at the bottom
   },
-  productDetails: {
-    marginBottom: 10,
+  gradient: {
+    ...StyleSheet.absoluteFillObject,
+    borderRadius: 12,
   },
-  productLabel: {
+  workDetails: {
+    marginBottom: 10,
+    paddingHorizontal: 10,
+  },
+  workLabel: {
     fontSize: 16,
     color: '#ffffff', // White text color
     fontWeight: 'bold',
   },
-  productPrice: {
+  workPrice: {
     fontSize: 14,
     color: '#ffffff', // White text color
   },

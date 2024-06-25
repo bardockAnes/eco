@@ -119,7 +119,7 @@ const plusScren = () => {
         let result = await ImagePicker.launchImageLibraryAsync({
             mediaTypes: ImagePicker.MediaTypeOptions.Images,
             allowsEditing: true,
-            aspect: [1, 1],
+            aspect: [2,3],
             quality: 1,
         });
 
@@ -184,7 +184,7 @@ const plusScren = () => {
             <Text style={styles.label}>Price - DA -</Text>
             <TextInput style={styles.input} placeholder="5 0000 DA" keyboardType="numeric" value={price} onChangeText={setPrice} />
             <Text style={{ color: "red", textAlign: "center", paddingBottom: 5 }}>{errors}</Text>
-            <Button text={isUpdating ? "Update" : "Create"} onPress={isUpdating ? Update : CreateNew} />
+            <Button text={isUpdating ? "Update" : "Create"} backgroundColor="red" textColor="black" onPress={isUpdating ? Update : CreateNew} />
             {isUpdating && <Text onPress={confirmDelete} style={styles.deleteText}>Delete</Text>}
         </View>
     )
