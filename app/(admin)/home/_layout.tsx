@@ -10,7 +10,7 @@ export default function categoryStack() {
   const iconColor = useThemeColor({ light: Colors.lightHeader.headerIcon, dark: Colors.darkHeader.headerIcon, }, "text");
 
   return (
-    <Stack screenOptions={{headerStyle: { backgroundColor: color }}}>
+    <Stack screenOptions={{ headerStyle: { backgroundColor: color } }}>
       <Stack.Screen
         name="index"
         options={{
@@ -30,9 +30,15 @@ export default function categoryStack() {
                   )}
                 </Pressable>
               </Link>
-  
+
             </React.Fragment>
           ),
+        }}
+      />
+      <Stack.Screen
+        name="[id]"
+        options={{
+          headerShown: false
         }}
       />
     </Stack>

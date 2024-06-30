@@ -101,11 +101,11 @@ export default {
     containerBackground: lightBackground,
     headerTitle: darkBackground,
     seeAllText: '#6c757d',
-    color1: '#00a8e8', // Turquoise blue
-    color2: '#0077b6', // Professional blue
-    color3: '#ff7f50', // Coral
-    color4: '#ff4d4f', // Bright red
-    color5: '#8e44ad', // Deep purple
+    color1: '#00C3FF', // Turquoise blue
+    color2: '#C7CFE2', // Professional blue
+    color3: '#00AAF0', // Coral
+    color4: '#0096DC', // Bright red
+    color5: '#D5DCED', // Deep purple
     label: darkBackground,
     activeCategoryBackground: mainLightColor,
     activeCategoryText: '#ffffff',  // White text for active category
@@ -117,11 +117,11 @@ export default {
     containerBackground: darkBackground,
     headerTitle: '#f8f9fa',  // Light grey for contrast
     seeAllText: '#adb5bd',
-    color1: '#00a8e8', // Turquoise blue
-    color2: '#0077b6', // Professional blue
-    color3: '#ff7f50', // Coral
-    color4: '#ff4d4f', // Bright red
-    color5: '#8e44ad', // Deep purple
+    color1: '#00C3FF', // Turquoise blue
+    color2: '#C7CFE2', // Professional blue
+    color3: '#00AAF0', // Coral
+    color4: '#0096DC', // Bright red
+    color5: '#D5DCED', // Deep purple
     label: '#f8f9fa',  // Light grey for readability
     activeCategoryBackground: mainDarkColor,
     activeCategoryText: '#212529',  // Dark text for contrast

@@ -64,5 +64,6 @@ export function View(props: ViewProps) {
 }
 
 export function ActivityIndicator() {
-  return <DefaultactivityIndicator style={{flex:1}} size={"large"} color={Colors.light.tint}/>
+  const color = useThemeColorVariant({ light: Colors.light.tint, dark: Colors.dark.tint })
+  return <DefaultactivityIndicator style={{ flex: 1 }} size={"large"} color={color} />
 }

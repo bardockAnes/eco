@@ -11,7 +11,7 @@ const TabOneScreen = () => {
   const containerBackground = useThemeColor({ light: Colors.lightHome.background, dark: Colors.darkHome.background }, 'background');
 
   return (
-    <ScrollView>
+    <ScrollView style={{backgroundColor: containerBackground}}>
       <View style={[styles.container, { backgroundColor: containerBackground }]}>
         <ImageSlider />
         <Categories activeCategory={activeCategory} setActiveCategory={setActiveCategory} />

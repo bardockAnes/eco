@@ -1,6 +1,6 @@
 import React from 'react';
 import { StyleSheet, Text, View, ScrollView, TouchableOpacity } from 'react-native';
-import { Shirts, Jeans, Casquette, Shoes, Vestes } from '@/components/Svgs';
+import {  Jean, Casquette, Shoes, Tshirt, Ensmble, Accessoires, Claqute } from '@/components/Svgs';
 import { useThemeColorVariant } from '../Themed';
 import Colors from '@/constants/Colors';
 import { Link, useSegments } from 'expo-router';
@@ -21,22 +21,19 @@ const Categories: React.FC<CategoriesProps> = ({ activeCategory, setActiveCatego
   };
 
   const colorPalettes = {
-    shirts: { ...colors, color1: colors.color1, color2: colors.color2, color3: colors.color3 },
-    jeans: { ...colors, color1: colors.color4, color2: colors.color5 },
-    shoes: { ...colors, color1: colors.color1, color2: colors.color2, color3: colors.color3, color4: colors.color4, color5: colors.color5 },
-    casquette: { ...colors, color1: colors.color3, color2: colors.color4, color3: colors.color5 },
-    vestes: { ...colors, color1: colors.color2, color2: colors.color3, color3: colors.color4 },
+    main: { ...colors, color1: colors.color1, color2: colors.color2, color3: colors.color3, color4: colors.color4, color5: colors.color5 },
   };
 
   type PaletteKeys = keyof typeof colorPalettes;
 
-  const categoriesData: { Icon: React.ComponentType<any>; label: string; palette: PaletteKeys }[] = [
-    { Icon: Shirts, label: 'T-Shirts', palette: 'shirts' },
-    { Icon: Jeans, label: 'Jeans', palette: 'jeans' },
-    { Icon: Shoes, label: 'Shoes', palette: 'shoes' },
-    { Icon: Casquette, label: 'Casquette', palette: 'casquette' },
-    { Icon: Vestes, label: 'Vestes', palette: 'vestes' },
-    { Icon: Vestes, label: 'desk', palette: 'vestes' },
+  const categoriesData: { Icon: React.ComponentType<any>; label: string; palette: PaletteKeys; name: string }[] = [
+    { Icon: Tshirt, label: 'Haut', palette: 'main', name: 'Haut', },
+    { Icon: Jean, label: 'desk', palette: 'main', name: 'Bas', },
+    { Icon: Ensmble, label: 'Ensemble', palette: 'main', name: 'Ensemble', },
+    { Icon: Shoes, label: 'Shoes', palette: 'main', name: 'anes', },
+    { Icon: Accessoires, label: 'accesoires', palette: 'main', name: 'Accessoires', },
+    { Icon: Casquette, label: 'Casquette', palette: 'main', name: 'Casquette', },
+    { Icon: Claqute, label: 'Claquettes', palette: 'main', name: 'Claquettes', },
   ];
 
   const handleCategoryPress = (category: string) => {
@@ -49,7 +46,7 @@ const Categories: React.FC<CategoriesProps> = ({ activeCategory, setActiveCatego
     <View style={styles.categoriesContainer}>
       <View style={styles.header}>
         <Text style={styles.title}>Categories</Text>
-       <Link href={`/${segments[0]}/categories`} asChild><TouchableOpacity><Text style={styles.seeAll}>See All</Text></TouchableOpacity></Link> 
+        <Link href={`/${segments[0]}/categories`} asChild><TouchableOpacity><Text style={styles.seeAll}>See All</Text></TouchableOpacity></Link>
       </View>
       <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={styles.categories}>
         <TouchableOpacity
@@ -58,14 +55,14 @@ const Categories: React.FC<CategoriesProps> = ({ activeCategory, setActiveCatego
         >
           <Text style={[styles.categoryLabel, activeCategory === 'All' && styles.activeCategoryText, styles.uppercaseText]}>All</Text>
         </TouchableOpacity>
-        {categoriesData.map(({ Icon, label, palette }, index) => (
+        {categoriesData.map(({ Icon, label, palette, name }, index) => (
           <TouchableOpacity
             style={[styles.category, activeCategory === label && styles.activeCategory]}
             key={index}
             onPress={() => handleCategoryPress(label)}
           >
-            <Icon size={35} {...colorPalettes[palette]} />
-            <Text style={[styles.categoryLabel, activeCategory === label && styles.activeCategoryText]}>{label}</Text>
+            <Icon size={40} {...colorPalettes[palette]} />
+            <Text style={[styles.categoryLabel, activeCategory === label && styles.activeCategoryText]}>{name}</Text>
           </TouchableOpacity>
         ))}
       </ScrollView>
@@ -104,7 +101,7 @@ const createStyles = (colors: any, activeCategory: string) => StyleSheet.create(
   category: {
     alignItems: 'center',
     justifyContent: 'center',
-    width: 80,
+    width: 90,
     padding: 10,
     backgroundColor: colors.categoryBackground,
     borderRadius: 10,

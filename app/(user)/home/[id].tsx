@@ -1,12 +1,11 @@
 import React, { useState } from "react";
 import {
-  ActivityIndicator,
   Pressable,
   ScrollView,
   StyleSheet,
   View,
 } from "react-native";
-import { Text, useThemeColorVariant } from '@/components/Themed';
+import { ActivityIndicator, Text, useThemeColorVariant } from '@/components/Themed';
 import { Link, Stack, useLocalSearchParams, useRouter } from "expo-router";
 import { useWorks } from "@/api/works";
 import { useCart } from "@/providers/CartProviders";
@@ -46,7 +45,11 @@ const idDetails = () => {
   };
 
   if (isLoading) {
-    return <ActivityIndicator size="large" style={styles.loadingIndicator} />;
+    return (
+      <View style={{flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+          <ActivityIndicator/>
+      </View>
+    )
   }
 
   if (error) {
@@ -62,6 +65,7 @@ const idDetails = () => {
             headerBackVisible: true,
             headerShadowVisible: false,
             headerTitleAlign: "center",
+            headerShown: true
           }}
         />
         <View style={styles.imageContainer}>
