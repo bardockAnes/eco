@@ -4,11 +4,16 @@ import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query"
 
 
 
-export const useWorksList = (category?: string) => {
+export const useWorksList = (category?: string, sortBy?: 'created_at' | 'price') => {
   return useQuery({
-    queryKey: ['works', category],
+    queryKey: ['works', category, sortBy],
     queryFn: async () => {
-      let query = supabase.from('works').select('*').order('created_at', { ascending: false });
+      let query = supabase.from('works').select('*');
+      if (sortBy) {
+        query = query.order(sortBy, { ascending: sortBy === 'price' });
+      } else {
+        query = query.order('created_at', { ascending: false });
+      }
       if (category && category !== 'All') {
         query = query.eq('category', category);
       }
@@ -20,7 +25,6 @@ export const useWorksList = (category?: string) => {
     }
   });
 };
-
 
 
 export const useWorks = (id: number) => {

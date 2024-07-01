@@ -13,13 +13,12 @@ type ProductsProps = {
 };
 
 const Products: React.FC<ProductsProps> = ({ category }) => {
-  const { data: works, error, isLoading } = useWorksList(category);
-
   const [filterVisible, setFilterVisible] = useState(false);
   const [categoryName, setCategoryName] = useState('New Arrivals');
+  const [sortBy, setSortBy] = useState<'created_at' | 'price'>('created_at');
 
+  const { data: works, error, isLoading } = useWorksList(category, sortBy);
   const segments = useSegments();
-
 
   // Theme Color
   const containerBackground = useThemeColorVariant({ light: Colors.lightProducts.containerBackground, dark: Colors.darkProducts.containerBackground });
@@ -31,6 +30,11 @@ const Products: React.FC<ProductsProps> = ({ category }) => {
   };
 
   const closeFilterModal = (newCategory: React.SetStateAction<string> | null) => {
+    if (newCategory === 'New Arrivals') {
+      setSortBy('created_at');
+    } else if (newCategory === 'Low Price') {
+      setSortBy('price');
+    }
     if (newCategory) {
       setCategoryName(newCategory);
     }
@@ -57,7 +61,7 @@ const Products: React.FC<ProductsProps> = ({ category }) => {
         <View style={styles.worksContent}>
           {works && works.map((work) => (
             <Link href={`/${segments[0]}/home/${work.id}`} key={work.id} asChild>
-              <Pressable  style={styles.work}>
+              <Pressable style={styles.work}>
                 <RemoteImage
                   path={work.image}
                   fallback="https://via.placeholder.com/200"
@@ -83,8 +87,7 @@ const Products: React.FC<ProductsProps> = ({ category }) => {
           <View style={styles.modalContent}>
             <Text style={styles.modalTitle}>Filter Works</Text>
             <Pressable onPress={() => closeFilterModal('New Arrivals')}><Text style={styles.modalButtonText}>New Arrivals</Text></Pressable>
-            <Pressable onPress={() => closeFilterModal('Popular')}><Text style={styles.modalButtonText}>Popular</Text></Pressable>
-            <Pressable onPress={() => closeFilterModal('On Sale')}><Text style={styles.modalButtonText}>On Sale</Text></Pressable>
+            <Pressable onPress={() => closeFilterModal('Low Price')}><Text style={styles.modalButtonText}>Low Price</Text></Pressable>
             <Pressable onPress={() => closeFilterModal(null)}><Text style={styles.modalButtonText}>Close</Text></Pressable>
           </View>
         </View>

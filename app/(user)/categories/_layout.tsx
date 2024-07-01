@@ -13,6 +13,8 @@ export default function ordersStack() {
   return (
     <Stack
       screenOptions={{
+        headerStyle: { backgroundColor: color },
+        headerShadowVisible: false,
         headerRight: () => (
           <React.Fragment>
             <Link href="/info" asChild>
@@ -36,8 +38,12 @@ export default function ordersStack() {
         name="index"
         options={{
           title: "Categories",
-          headerStyle: { backgroundColor: color },
-          headerShadowVisible: false,
+        }}
+      />
+      <Stack.Screen
+        name="[label]"
+        options={{
+          headerShown: false
         }}
       />
     </Stack>

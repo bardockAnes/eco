@@ -3,52 +3,52 @@ import { useThemeColorVariant } from '../Themed';
 import Colors from '@/constants/Colors';
 import { StyleSheet, Image, ScrollView, View, Text, TouchableOpacity } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
-import { Link } from 'expo-router';
+import { Link, useSegments } from 'expo-router';
 
 const categoriesData = [
     {
         title: 'Haut',
         items: [
-            { label: 'T-shirt', source: require('../../assets/images/categories/tshirt.jpeg') },
-            { label: 'Shirt', source: require('../../assets/images/categories/shirt.jpeg') },
-            { label: 'Long Shirt', source: require('../../assets/images/categories/longshirt.jpeg') },
-            { label: 'Jacket', source: require('../../assets/images/categories/jacket.jpeg') },
+            { category: 'haut', label: 'T-shirt', source: require('../../assets/images/categories/tshirt.jpeg') },
+            { category: 'haut', label: 'Shirt', source: require('../../assets/images/categories/shirt.jpeg') },
+            { category: 'haut', label: 'Long Shirt', source: require('../../assets/images/categories/longshirt.jpeg') },
+            { category: 'haut', label: 'Jacket', source: require('../../assets/images/categories/jacket.jpeg') },
         ]
     },
     {
         title: 'Bas',
         items: [
-            { label: 'Jeans', source: require('../../assets/images/categories/jeans.jpeg') },
-            { label: 'Pants', source: require('../../assets/images/categories/pants.jpeg') },
-            { label: 'Sweatpants', source: require('../../assets/images/categories/sweatpants.jpeg') },
+            { category: 'haut', label: 'Jeans', source: require('../../assets/images/categories/jeans.jpeg') },
+            { category: 'haut', label: 'Pants', source: require('../../assets/images/categories/pants.jpeg') },
+            { category: 'haut', label: 'Sweatpants', source: require('../../assets/images/categories/sweatpants.jpeg') },
         ]
     },
     {
         title: 'Shoes',
         items: [
-            { label: 'Sneakers', source: require('../../assets/images/categories/shoes.jpeg') },
-            { label: 'Boots', source: require('../../assets/images/categories/boots.jpeg') },
+            { category: 'haut', label: 'Sneakers', source: require('../../assets/images/categories/shoes.jpeg') },
+            { category: 'haut', label: 'Boots', source: require('../../assets/images/categories/boots.jpeg') },
         ]
     },
     {
         title: 'Accessories',
         items: [
-            { label: 'Hat', source: require('../../assets/images/categories/hat.jpeg') },
-            { label: 'Sunglasses', source: require('../../assets/images/categories/sunglasses.jpeg') },
-            { label: 'Watch', source: require('../../assets/images/categories/watch.jpeg') },
+            { category: 'haut', label: 'Hat', source: require('../../assets/images/categories/hat.jpeg') },
+            { category: 'haut', label: 'Sunglasses', source: require('../../assets/images/categories/sunglasses.jpeg') },
+            { category: 'haut', label: 'Watch', source: require('../../assets/images/categories/watch.jpeg') },
         ]
     },
     {
         title: 'Ensemble',
-        items: [{ label: 'Ensemble', source: require('../../assets/images/categories/ensemble.jpeg') }]
+        items: [{ category: 'haut', label: 'Ensemble', source: require('../../assets/images/categories/ensemble.jpeg') }]
     },
     {
         title: 'Casquette',
-        items: [{ label: 'Casquette', source: require('../../assets/images/categories/casquette.jpeg') }]
+        items: [{ category: 'haut', label: 'Casquette', source: require('../../assets/images/categories/casquette.jpeg') }]
     },
     {
         title: 'Slider',
-        items: [{ label: 'Slider', source: require('../../assets/images/categories/slider.jpeg') }]
+        items: [{ category: 'haut', label: 'Slider', source: require('../../assets/images/categories/slider.jpeg') }]
     }
 ];
 
@@ -57,6 +57,8 @@ function Categories() {
     const colors = backgroundColor === Colors.light.background ? Colors.light : Colors.dark;
     const styles = createStyles(colors);
 
+    const segments = useSegments();
+
     return (
         <ScrollView contentContainerStyle={styles.scrollContainer}>
             {categoriesData.map((category, index) => (
@@ -64,7 +66,7 @@ function Categories() {
                     <Text style={styles.title}>{category.title}</Text>
                     <View style={styles.images}>
                         {category.items.map((item, idx) => (
-                            <Link href={`/(user)/categories/${item.label}`} key={item.label} asChild>
+                            <Link href={`/${segments[0]}/categories/${item.label}`} key={item.label} asChild>
                                 <TouchableOpacity key={idx} style={styles.imageContainer}>
                                     <Image source={item.source} style={styles.img} />
                                     <LinearGradient

@@ -13,31 +13,20 @@ export default function ordersStack() {
   return (
     <Stack
       screenOptions={{
-        headerRight: () => (
-          <React.Fragment>
-            <Link href="/info" asChild>
-              <Pressable>
-                {({ pressed }) => (
-                  <Feather
-                    name="info"
-                    size={24}
-                    color={iconColor}
-                    style={{ opacity: pressed ? 0.6 : 1 }}
-                  />
-                )}
-              </Pressable>
-            </Link>
-
-          </React.Fragment>
-        ),
+        headerStyle: { backgroundColor: color },
+        headerShadowVisible: false,
       }}
     >
       <Stack.Screen
         name="index"
         options={{
           title: "Categories",
-          headerStyle: { backgroundColor: color },
-          headerShadowVisible: false,
+        }}
+      />
+      <Stack.Screen
+        name="[label]"
+        options={{
+          headerShown: false
         }}
       />
     </Stack>
