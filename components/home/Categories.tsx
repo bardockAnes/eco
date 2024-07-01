@@ -1,6 +1,6 @@
 import React from 'react';
 import { StyleSheet, Text, View, ScrollView, TouchableOpacity } from 'react-native';
-import {  Jean, Casquette, Shoes, Tshirt, Ensmble, Accessoires, Claqute } from '@/components/Svgs';
+import { Casquette, Shoes, Tshirt, Ensemble, Accessoires, Claquettes, Jeans } from '@/components/Svgs';
 import { useThemeColorVariant } from '../Themed';
 import Colors from '@/constants/Colors';
 import { Link, useSegments } from 'expo-router';
@@ -25,15 +25,16 @@ const Categories: React.FC<CategoriesProps> = ({ activeCategory, setActiveCatego
   };
 
   type PaletteKeys = keyof typeof colorPalettes;
+  const AllCategories = ['haut', 'bas', 'ensemble', 'shoes', 'accessoires', 'casquette', 'claquettes'];
 
   const categoriesData: { Icon: React.ComponentType<any>; label: string; palette: PaletteKeys; name: string }[] = [
-    { Icon: Tshirt, label: 'Haut', palette: 'main', name: 'Haut', },
-    { Icon: Jean, label: 'desk', palette: 'main', name: 'Bas', },
-    { Icon: Ensmble, label: 'Ensemble', palette: 'main', name: 'Ensemble', },
-    { Icon: Shoes, label: 'Shoes', palette: 'main', name: 'anes', },
-    { Icon: Accessoires, label: 'accesoires', palette: 'main', name: 'Accessoires', },
-    { Icon: Casquette, label: 'Casquette', palette: 'main', name: 'Casquette', },
-    { Icon: Claqute, label: 'Claquettes', palette: 'main', name: 'Claquettes', },
+    { Icon: Tshirt, label: 'haut', palette: 'main', name: 'Haut', },
+    { Icon: Jeans, label: 'desk', palette: 'main', name: 'bas', },
+    { Icon: Ensemble, label: 'ensemble', palette: 'main', name: 'Ensemble', },
+    { Icon: Shoes, label: 'shoes', palette: 'main', name: 'anes', },
+    { Icon: Accessoires, label: 'accessoires', palette: 'main', name: 'Accessoires', },
+    { Icon: Casquette, label: 'casquette', palette: 'main', name: 'Casquette', },
+    { Icon: Claquettes, label: 'claquettes', palette: 'main', name: 'Claquettes', },
   ];
 
   const handleCategoryPress = (category: string) => {

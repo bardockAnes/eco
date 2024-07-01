@@ -434,7 +434,7 @@ export function Jean({ size, mainColor, color1, color2, color3, color4 }: any) {
   );
 }
 
-export function Ensmble({
+export function Ensemble({
   size,
   mainColor,
   color1,
@@ -614,7 +614,7 @@ export function Accessoires({
   );
 }
 
-export function Claqute({
+export function Claquettes({
   size,
   mainColor,
   color1,

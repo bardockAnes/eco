@@ -65,7 +65,7 @@ const Products: React.FC<ProductsProps> = ({ category }) => {
                 />
                 <View style={styles.workOverlay}>
                   <LinearGradient
-                    colors={['transparent', 'rgba(0, 0, 0, 0.14)']}
+                    colors={['transparent', 'rgba(0, 0, 0, 0.17)']}
                     style={styles.gradient}
                   />
                   <View style={styles.workDetails}>

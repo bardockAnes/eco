@@ -53,7 +53,7 @@ const plusScren = () => {
     };
 
     const validateInput = () => {
-        const AllCategories = ['bed', 'wardrobe', 'bed-table', 'decor', 'kitchen', 'tv-table', 'desk', 'bathroom'];
+        const AllCategories = ['haut', 'bas', 'ensemble', 'shoes', 'accessoires', 'casquette', 'claquettes'];
 
         setErrors("");
         if (!name) {
@@ -69,7 +69,7 @@ const plusScren = () => {
             return false;
         }
         if (!AllCategories.includes(category)) {
-            setErrors("The category must be one of these: bed, wardrobe, bed-table, decor, kitchen, tv-table, desk, bathroom");
+            setErrors("The category must be one of these: haut, bas, ensemble, accessoires, casquette, claquettes");
             return false;
         }
 
@@ -110,7 +110,7 @@ const plusScren = () => {
         setLoading(true); // Start loading
         const imagePath = await uploadImage();
 
-        updateWorks({ id, name, price: parseFloat(price), image: imagePath }, {
+        updateWorks({ id, name, price: parseFloat(price), image: imagePath, category }, {
             onSuccess: () => {
                 setLoading(false); // Stop loading
                 reset();
@@ -205,7 +205,7 @@ const plusScren = () => {
             <Text style={styles.label}>Price (DZD)</Text>
             <TextInput
                 style={styles.input}
-                placeholder="50 000 DZD"
+                placeholder="3000 DZD"
                 keyboardType="numeric"
                 value={price}
                 onChangeText={setPrice}
