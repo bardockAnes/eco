@@ -1,23 +1,29 @@
+// UserSettings.tsx
 import React, { useState } from 'react';
-import { StyleSheet, ScrollView, View, Text, TouchableOpacity, TouchableWithoutFeedback } from 'react-native';
+import { StyleSheet, ScrollView, View, Text, TouchableOpacity, TouchableWithoutFeedback, useColorScheme } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
-import { useThemeColorVariant } from '@/components/Themed';
+import { useThemeColor, useThemeColorVariant } from '@/components/Themed';
 import Colors from '@/constants/Colors';
 import { supabase } from '@/supabaseS/supabase';
+import { useLanguage } from '@/providers/LanguageProvider';
+import { i18n } from '@/lib/i18n';
+import { DarkTheme, DefaultTheme } from '@react-navigation/native';
 
 export default function UserSettings() {
   const [darkModeOption, setDarkModeOption] = useState('system');
   const [isModalVisible, setModalVisible] = useState(false);
+  const [isLanguageModalVisible, setLanguageModalVisible] = useState(false);
 
+  const { language, setLanguage } = useLanguage();
+ 
+  useThemeColor({overrideTheme:'light'},'background')
+ 
   const containerBackground = useThemeColorVariant({ light: Colors.light.background, dark: Colors.dark.background });
-
   const colors = containerBackground === Colors.light.background ? Colors.light : Colors.dark;
-
   const styles = createStyles(colors);
 
-
   const handleSignOut = () => {
-    supabase.auth.signOut()
+    supabase.auth.signOut();
   };
 
   const toggleDarkMode = (option: React.SetStateAction<string>) => {
@@ -41,44 +47,49 @@ export default function UserSettings() {
   const getDarkModeText = () => {
     switch (darkModeOption) {
       case 'light':
-        return 'Light Mode';
+        return i18n.t('lightMode');
       case 'dark':
-        return 'Dark Mode';
+        return i18n.t('darkMode');
       case 'system':
-        return 'System Default';
+        return i18n.t('systemDefault');
       default:
-        return 'Light Mode';
+        return i18n.t('lightMode');
     }
+  };
+
+  const handleChangeLanguage = (newLanguage: string) => {
+    setLanguage(newLanguage);
+    setLanguageModalVisible(false);
   };
 
   return (
     <ScrollView contentContainerStyle={styles.scrollViewContent}>
       {/* Account Settings */}
       <View style={styles.section}>
-        <Text style={styles.sectionTitle}>Account Settings</Text>
+        <Text style={styles.sectionTitle}>{i18n.t('accountSettings')}</Text>
         <TouchableOpacity style={styles.item} onPress={() => { }}>
           <Ionicons name="person-outline" size={24} color={colors.tint} style={styles.itemIcon} />
-          <Text style={styles.itemText}>Profile</Text>
+          <Text style={styles.itemText}>{i18n.t('profile')}</Text>
           <Ionicons name="chevron-forward" size={18} color={colors.tint} />
         </TouchableOpacity>
-        <TouchableOpacity style={[styles.item, styles.lastItemBorder]} onPress={() => { }}>
+        <TouchableOpacity style={styles.item} onPress={() => { }}>
           <Ionicons name="lock-closed-outline" size={24} color={colors.tint} style={styles.itemIcon} />
-          <Text style={styles.itemText}>Change Password</Text>
+          <Text style={styles.itemText}>{i18n.t('changePassword')}</Text>
           <Ionicons name="chevron-forward" size={18} color={colors.tint} />
         </TouchableOpacity>
       </View>
 
       {/* Preferences */}
       <View style={styles.section}>
-        <Text style={styles.sectionTitle}>Preferences</Text>
+        <Text style={styles.sectionTitle}>{i18n.t('preferences')}</Text>
         {/* Notifications */}
-        <TouchableOpacity style={styles.preferenceItem}>
+        <TouchableOpacity style={styles.item}>
           <Ionicons name="notifications-outline" size={24} color={colors.tint} style={styles.itemIcon} />
-          <Text style={styles.itemText}>Notifications</Text>
+          <Text style={styles.itemText}>{i18n.t('notifications')}</Text>
           <Ionicons name="chevron-forward" size={18} color={colors.tint} />
         </TouchableOpacity>
         {/* Dark Mode */}
-        <TouchableOpacity style={[styles.preferenceItem, styles.lastItemBorder]} onPress={() => setModalVisible(true)}>
+        <TouchableOpacity style={styles.item} onPress={() => setModalVisible(true)}>
           <Ionicons name={getDarkModeIcon()} size={24} color={colors.tint} style={styles.itemIcon} />
           <Text style={styles.itemText}>{getDarkModeText()}</Text>
           <Ionicons name="chevron-forward" size={18} color={colors.tint} />
@@ -87,22 +98,32 @@ export default function UserSettings() {
 
       {/* Legal */}
       <View style={styles.section}>
-        <Text style={styles.sectionTitle}>Legal</Text>
+        <Text style={styles.sectionTitle}>{i18n.t('legal')}</Text>
         <TouchableOpacity style={styles.item} onPress={() => { }}>
           <Ionicons name="shield-checkmark-outline" size={24} color={colors.tint} style={styles.itemIcon} />
-          <Text style={styles.itemText}>Privacy Policy</Text>
+          <Text style={styles.itemText}>{i18n.t('privacyPolicy')}</Text>
           <Ionicons name="chevron-forward" size={18} color={colors.tint} />
         </TouchableOpacity>
-        <TouchableOpacity style={[styles.item, styles.lastItemBorder]} onPress={() => { }}>
+        <TouchableOpacity style={styles.item} onPress={() => { }}>
           <Ionicons name="document-text-outline" size={24} color={colors.tint} style={styles.itemIcon} />
-          <Text style={styles.itemText}>Terms of Service</Text>
+          <Text style={styles.itemText}>{i18n.t('termsOfService')}</Text>
+          <Ionicons name="chevron-forward" size={18} color={colors.tint} />
+        </TouchableOpacity>
+      </View>
+
+      {/* Language */}
+      <View style={styles.section}>
+        <Text style={styles.sectionTitle}>{i18n.t('chooseLanguage')}</Text>
+        <TouchableOpacity style={styles.item} onPress={() => setLanguageModalVisible(true)}>
+          <Ionicons name="globe-outline" size={24} color={colors.tint} style={styles.itemIcon} />
+          <Text style={styles.itemText}>{i18n.t(language)}</Text>
           <Ionicons name="chevron-forward" size={18} color={colors.tint} />
         </TouchableOpacity>
       </View>
 
       {/* Sign Out */}
       <TouchableOpacity style={styles.signOutButton} onPress={handleSignOut}>
-        <Text style={styles.signOutButtonText}>Sign Out</Text>
+        <Text style={styles.signOutButtonText}>{i18n.t('signOut')}</Text>
         <Ionicons name="log-out-outline" size={24} color="#fff" style={styles.signOutButtonIcon} />
       </TouchableOpacity>
 
@@ -113,18 +134,39 @@ export default function UserSettings() {
             <View style={styles.modalOverlay} />
           </TouchableWithoutFeedback>
           <View style={styles.modalContent}>
-            <Text style={styles.modalTitle}>Choose Theme</Text>
+            <Text style={styles.modalTitle}>{i18n.t('chooseTheme')}</Text>
             <TouchableOpacity style={styles.modalItem} onPress={() => toggleDarkMode('light')}>
               <Ionicons name="sunny-outline" size={24} color={colors.tint} style={styles.itemIcon} />
-              <Text style={styles.modalItemText}>Light Mode</Text>
+              <Text style={styles.modalItemText}>{i18n.t('lightMode')}</Text>
             </TouchableOpacity>
             <TouchableOpacity style={styles.modalItem} onPress={() => toggleDarkMode('dark')}>
               <Ionicons name="moon-outline" size={24} color={colors.tint} style={styles.itemIcon} />
-              <Text style={styles.modalItemText}>Dark Mode</Text>
+              <Text style={styles.modalItemText}>{i18n.t('darkMode')}</Text>
             </TouchableOpacity>
             <TouchableOpacity style={styles.modalItem} onPress={() => toggleDarkMode('system')}>
               <Ionicons name="cloudy-outline" size={24} color={colors.tint} style={styles.itemIcon} />
-              <Text style={styles.modalItemText}>System Default</Text>
+              <Text style={styles.modalItemText}>{i18n.t('systemDefault')}</Text>
+            </TouchableOpacity>
+          </View>
+        </View>
+      )}
+
+      {/* Language Modal */}
+      {isLanguageModalVisible && (
+        <View style={styles.modalContainer}>
+          <TouchableWithoutFeedback onPress={() => setLanguageModalVisible(false)}>
+            <View style={styles.modalOverlay} />
+          </TouchableWithoutFeedback>
+          <View style={styles.modalContent}>
+            <Text style={styles.modalTitle}>{i18n.t('chooseLanguage')}</Text>
+            <TouchableOpacity style={styles.modalItem} onPress={() => handleChangeLanguage('en')}>
+              <Text style={styles.modalItemText}>{i18n.t('english')}</Text>
+            </TouchableOpacity>
+            <TouchableOpacity style={styles.modalItem} onPress={() => handleChangeLanguage('ar')}>
+              <Text style={styles.modalItemText}>{i18n.t('arabic')}</Text>
+            </TouchableOpacity>
+            <TouchableOpacity style={styles.modalItem} onPress={() => handleChangeLanguage('fr')}>
+              <Text style={styles.modalItemText}>{i18n.t('french')}</Text>
             </TouchableOpacity>
           </View>
         </View>
@@ -139,6 +181,7 @@ const createStyles = (colors: any) => StyleSheet.create({
     paddingHorizontal: 20,
     paddingVertical: 10,
     backgroundColor: colors.background,
+    paddingBottom: 100
   },
   section: {
     marginBottom: 20,
@@ -158,11 +201,6 @@ const createStyles = (colors: any) => StyleSheet.create({
     alignItems: 'center',
     paddingVertical: 15,
     paddingHorizontal: 20,
-    borderBottomWidth: 1,
-    borderColor: '#e0e0e0'
-  },
-  lastItemBorder: {
-    borderBottomWidth: 0,
   },
   itemText: {
     fontSize: 16,
@@ -172,15 +210,6 @@ const createStyles = (colors: any) => StyleSheet.create({
   },
   itemIcon: {
     marginRight: 10,
-  },
-  preferenceItem: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'space-between',
-    paddingVertical: 15,
-    paddingHorizontal: 20,
-    borderBottomWidth: 1,
-    borderColor: '#e0e0e0',
   },
   signOutButton: {
     backgroundColor: '#d9534f',
@@ -221,7 +250,7 @@ const createStyles = (colors: any) => StyleSheet.create({
   },
   modalContent: {
     width: '80%',
-    backgroundColor: 'white',
+    backgroundColor: colors.background,
     borderRadius: 10,
     padding: 20,
     elevation: 5,
@@ -230,7 +259,7 @@ const createStyles = (colors: any) => StyleSheet.create({
     fontSize: 18,
     fontWeight: 'bold',
     marginBottom: 10,
-    color: '#333',
+    color: colors.text,
   },
   modalItem: {
     flexDirection: 'row',
@@ -239,8 +268,7 @@ const createStyles = (colors: any) => StyleSheet.create({
   },
   modalItemText: {
     fontSize: 16,
-    color: '#333',
+    color: colors.text,
     marginLeft: 10,
   },
 });
-

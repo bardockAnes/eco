@@ -4,6 +4,7 @@ import { Pressable } from "react-native";
 import { Feather } from "@expo/vector-icons"; // Import Feather icons from Expo
 import Colors from "@/constants/Colors";
 import { useThemeColor } from "@/components/Themed";
+import { i18n } from "@/lib/i18n";
 
 export default function categoryStack() {
   const color = useThemeColor({ light: Colors.lightHeader.backgroundcolor, dark: Colors.darkHeader.backgroundcolor }, "background");
@@ -12,6 +13,7 @@ export default function categoryStack() {
   return (
     <Stack
       screenOptions={{
+        headerTitleAlign:'center',
         headerRight: () => (
           <React.Fragment>
             <Link href="/info" asChild>
@@ -34,7 +36,7 @@ export default function categoryStack() {
       <Stack.Screen
         name="index"
         options={{
-          title: "Boutique",
+          title: i18n.t('home.title'),
           headerShadowVisible: true,
         }}
       />

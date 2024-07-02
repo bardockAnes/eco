@@ -19,10 +19,11 @@ export type TextProps = ThemeProps & DefaultText['props'];
 export type ViewProps = ThemeProps & DefaultView['props'];
 
 export function useThemeColor(
-  props: { light?: string; dark?: string },
+  props: { light?: string; dark?: string; overrideTheme?: 'light' | 'dark' },
   colorName: keyof typeof Colors.light & keyof typeof Colors.dark
 ) {
-  const theme = useColorScheme() ?? 'light';
+  const systemTheme = useColorScheme() ?? 'light';
+  const theme = props.overrideTheme ?? systemTheme;
   const colorFromProps = props[theme];
 
   if (colorFromProps) {
@@ -31,6 +32,7 @@ export function useThemeColor(
     return Colors[theme][colorName];
   }
 }
+
 
 export function useThemeColorVariant(
   variantProps: { light?: any; dark?: any }
@@ -47,6 +49,8 @@ export function useThemeColorVariant(
     return Colors[theme]; // Assuming Colors is an object containing light and dark theme colors
   }
 }
+
+
 
 
 export function Text(props: TextProps) {

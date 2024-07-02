@@ -4,6 +4,7 @@ import Colors from '@/constants/Colors';
 import { useColorScheme } from '@/components/useColorScheme';
 import { useAuth } from '@/providers/AuthProviders';
 import { AntDesign, FontAwesome  } from '@expo/vector-icons';
+import { i18n } from '@/lib/i18n';
 
 function TabBarIcon(props: {
   name: React.ComponentProps<typeof FontAwesome>['name'];
@@ -41,7 +42,7 @@ export default function TabLayout() {
           backgroundColor: Colors[colorScheme ?? 'light'].tabBarBackgroundcolor,
           borderColor: "transparent",
           borderRadius: 30, // Fully rounded corners
-          marginHorizontal: 20, // Add horizontal margin to make it appear floating
+          marginHorizontal: '10%', // Add horizontal margin to make it appear floating
           position: 'absolute', // Position the tab bar above the content
           bottom: 20, // Position it above the bottom of the screen
           left: 0,
@@ -69,7 +70,7 @@ export default function TabLayout() {
       <Tabs.Screen
         name="home"
         options={{
-          title: 'Home',
+          title: i18n.t('tabs.home'),
           headerShown: false,
           tabBarIcon: ({ color }) => <TabBarIcon name="home" color={color} />,
         }}
@@ -77,7 +78,7 @@ export default function TabLayout() {
       <Tabs.Screen
         name="categories"
         options={{
-          title: 'Categories',
+          title: i18n.t('tabs.categories'),
           headerShown: false,
           tabBarIcon: ({ color }) => <AntDesignIcon name="appstore-o"  color={color} />
         }}
@@ -85,14 +86,14 @@ export default function TabLayout() {
       <Tabs.Screen
         name="favorite"
         options={{
-          title: 'Favorite',
+          title: 'Favorite',href:null, headerShown: false,
           tabBarIcon: ({ color }) => <TabBarIcon name="star" color={color} />,
         }}
       />
       <Tabs.Screen
         name="settings"
         options={{
-          title: 'Settings',
+          title: i18n.t('tabs.settings'),
           tabBarIcon: ({ color }) => <TabBarIcon name="cog" color={color} />,
         }}
       />

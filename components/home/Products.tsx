@@ -7,6 +7,7 @@ import { useWorksList } from '@/api/works';
 import RemoteImage from '../RemoteImage';
 import { LinearGradient } from 'expo-linear-gradient';
 import { Link, useSegments } from 'expo-router';
+import { i18n } from '@/lib/i18n';
 
 type ProductsProps = {
   category: string;
@@ -14,7 +15,7 @@ type ProductsProps = {
 
 const Products: React.FC<ProductsProps> = ({ category }) => {
   const [filterVisible, setFilterVisible] = useState(false);
-  const [categoryName, setCategoryName] = useState('New Arrivals');
+  const [categoryName, setCategoryName] = useState(i18n.t('home.newArrivals'));
   const [sortBy, setSortBy] = useState<'created_at' | 'price'>('created_at');
 
   const { data: works, error, isLoading } = useWorksList(category, sortBy);
@@ -30,9 +31,9 @@ const Products: React.FC<ProductsProps> = ({ category }) => {
   };
 
   const closeFilterModal = (newCategory: React.SetStateAction<string> | null) => {
-    if (newCategory === 'New Arrivals') {
+    if (newCategory === i18n.t('home.newArrivals')) {
       setSortBy('created_at');
-    } else if (newCategory === 'Low Price') {
+    } else if (newCategory === i18n.t('home.lowPrice')) {
       setSortBy('price');
     }
     if (newCategory) {
@@ -46,7 +47,7 @@ const Products: React.FC<ProductsProps> = ({ category }) => {
   }
 
   if (error) {
-    return <Text>Error fetching the data</Text>;
+    return <Text>{i18n.t('home.errorFetching')}</Text>;
   }
 
   return (
@@ -74,7 +75,7 @@ const Products: React.FC<ProductsProps> = ({ category }) => {
                   />
                   <View style={styles.workDetails}>
                     <Text style={styles.workLabel}>{work.name}</Text>
-                    <Text style={styles.workPrice}>{work.price} DZD</Text>
+                    <Text style={styles.workPrice}>{work.price} {i18n.t('home.dzd')}</Text>
                   </View>
                 </View>
               </Pressable>
@@ -85,10 +86,10 @@ const Products: React.FC<ProductsProps> = ({ category }) => {
       <Modal visible={filterVisible} animationType="slide" transparent={true}>
         <View style={styles.modalContainer}>
           <View style={styles.modalContent}>
-            <Text style={styles.modalTitle}>Filter Works</Text>
-            <Pressable onPress={() => closeFilterModal('New Arrivals')}><Text style={styles.modalButtonText}>New Arrivals</Text></Pressable>
-            <Pressable onPress={() => closeFilterModal('Low Price')}><Text style={styles.modalButtonText}>Low Price</Text></Pressable>
-            <Pressable onPress={() => closeFilterModal(null)}><Text style={styles.modalButtonText}>Close</Text></Pressable>
+            <Text style={styles.modalTitle}>{i18n.t('home.filter')}</Text>
+            <Pressable onPress={() => closeFilterModal(i18n.t('home.newArrivals'))}><Text style={styles.modalButtonText}>{i18n.t('home.newArrivals')}</Text></Pressable>
+            <Pressable onPress={() => closeFilterModal(i18n.t('home.lowPrice'))}><Text style={styles.modalButtonText}>{i18n.t('home.lowPrice')}</Text></Pressable>
+            <Pressable onPress={() => closeFilterModal(null)}><Text style={styles.modalButtonText}>{i18n.t('home.close')}</Text></Pressable>
           </View>
         </View>
       </Modal>

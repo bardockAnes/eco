@@ -4,6 +4,7 @@ import { Casquette, Shoes, Tshirt, Ensemble, Accessoires, Claquettes, Jeans } fr
 import { useThemeColorVariant } from '../Themed';
 import Colors from '@/constants/Colors';
 import { Link, useSegments } from 'expo-router';
+import { i18n } from '@/lib/i18n';
 
 type CategoriesProps = {
   activeCategory: string;
@@ -28,13 +29,13 @@ const Categories: React.FC<CategoriesProps> = ({ activeCategory, setActiveCatego
   const AllCategories = ['haut', 'bas', 'ensemble', 'shoes', 'accessoires', 'casquette', 'claquettes'];
 
   const categoriesData: { Icon: React.ComponentType<any>; label: string; palette: PaletteKeys; name: string }[] = [
-    { Icon: Tshirt, label: 'haut', palette: 'main', name: 'Haut', },
-    { Icon: Jeans, label: 'desk', palette: 'main', name: 'bas', },
-    { Icon: Ensemble, label: 'ensemble', palette: 'main', name: 'Ensemble', },
-    { Icon: Shoes, label: 'shoes', palette: 'main', name: 'anes', },
-    { Icon: Accessoires, label: 'accessoires', palette: 'main', name: 'Accessoires', },
-    { Icon: Casquette, label: 'casquette', palette: 'main', name: 'Casquette', },
-    { Icon: Claquettes, label: 'claquettes', palette: 'main', name: 'Claquettes', },
+    { Icon: Tshirt, label: 'haut', palette: 'main', name: i18n.t('home.categoriesTop') },
+    { Icon: Jeans, label: 'desk', palette: 'main', name: i18n.t('home.categoriesBottom') },
+    { Icon: Ensemble, label: 'ensemble', palette: 'main', name: i18n.t('home.categoriesSet') },
+    { Icon: Shoes, label: 'shoes', palette: 'main', name: i18n.t('home.categoriesShoes')},
+    { Icon: Accessoires, label: 'accessoires', palette: 'main', name: i18n.t('home.categoriesAccessories') },
+    { Icon: Casquette, label: 'casquette', palette: 'main', name: i18n.t('home.categoriesCap') },
+    { Icon: Claquettes, label: 'claquettes', palette: 'main', name: i18n.t('home.categoriesSlides') },
   ];
 
   const handleCategoryPress = (category: string) => {
@@ -46,15 +47,15 @@ const Categories: React.FC<CategoriesProps> = ({ activeCategory, setActiveCatego
   return (
     <View style={styles.categoriesContainer}>
       <View style={styles.header}>
-        <Text style={styles.title}>Categories</Text>
-        <Link href={`/${segments[0]}/categories`} asChild><TouchableOpacity><Text style={styles.seeAll}>See All</Text></TouchableOpacity></Link>
+        <Text style={styles.title}>{i18n.t('home.categoriesTitle')}</Text>
+        <Link href={`/${segments[0]}/categories`} asChild><TouchableOpacity><Text style={styles.seeAll}>{i18n.t('home.categoriesSeeAll')}</Text></TouchableOpacity></Link>
       </View>
       <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={styles.categories}>
         <TouchableOpacity
           style={[styles.category, activeCategory === 'All' && styles.activeCategory]}
           onPress={() => handleCategoryPress('All')}
         >
-          <Text style={[styles.categoryLabel, activeCategory === 'All' && styles.activeCategoryText, styles.uppercaseText]}>All</Text>
+          <Text style={[styles.categoryLabel, activeCategory === 'All' && styles.activeCategoryText, styles.uppercaseText]}>{i18n.t('home.categoriesAll')}</Text>
         </TouchableOpacity>
         {categoriesData.map(({ Icon, label, palette, name }, index) => (
           <TouchableOpacity
